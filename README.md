@@ -30,3 +30,7 @@ Picterest is a web application that allows users to discover, create, and save i
 **Optional**
 
 - [Tailwind CSS](https://youtu.be/UBOj6rqRUME?si=ejZNJLCN0WimfDuF) -> Tailwind CSS crash course
+
+**More on RESTFul Web API PHP**
+- [BASIC RESTful Web API PHP/MySQL](https://monkeywebstudio.com/basic-restful-web-api-phpmysql/) 
+- [How to Create RESTful API in PHP | RESTful API With PHP & MySQL](https://youtu.be/dlGtSoigdB0?si=M1L6g4Px-r5Xt5pd)
