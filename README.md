@@ -22,7 +22,8 @@ Picterest is a web application that allows users to discover, create, and save i
 - [Vue.jS](https://youtube.com/playlist?list=PL4cUxeGkcC9hYYGbV60Vq3IXYNfDk8At1&si=aUqlx4ujBDsvYewc) -> Frontend (components, router)
 - [Connect Vue.js with backend](https://www.youtube.com/watch?v=-BYZAO99UVA) -> fetch, axios
 - [PHP](https://youtu.be/zZ6vybT1HQs?si=dH2YAlw46LLI4Q1w) -> Database connection, CRUD operations, Backend
-- [Integrate Front and Back](https://youtu.be/7FJ0vwZWCU4?si=59IMcxfXQisuRWVJ)
+- [Integrate Front and Back](https://youtu.be/7FJ0vwZWCU4?si=59IMcxfXQisuRWVJ) -> Full stack overview
+- [Git usage](https://www.freecodecamp.org/news/practical-git-and-git-workflows/) -> git workflows
 
 **Optional**
 
