@@ -1,5 +1,8 @@
 <script setup>
+import { useRouter } from "vue-router";
 import Navbar from "@/components/Navbar.vue";
+
+const router = useRouter();
 </script>
 
 <template>

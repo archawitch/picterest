@@ -1,20 +1,23 @@
 <script setup>
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
+import { useAuthenticationStore } from "../../stores/authentication";
 import CustomInput from "../../components/CustomInput.vue";
 
-const usernameText = ref("");
-const passwordText = ref("");
-
 const router = useRouter();
+const authentication = useAuthenticationStore();
 
-const login = () => {
+const formData = reactive({
+  username: "",
+  password: "",
+});
+
+const loginClick = () => {
   // Perform login logic here (e.g., make an API request to your PHP backend)
   // If login is successful, you can redirect the user to the home page
   // Replace this with your actual login logic
-  // Access the global router instance from app.js
-  alert(usernameText.value);
-  //router.push("/");
+  authentication.authenticate();
+  router.push({ name: "home" });
 };
 </script>
 
@@ -24,17 +27,15 @@ const login = () => {
       <img height="80" src="/src/assets/images/picterest-logo.png" alt="" />
     </div>
     <div><h2>Log in to Picterest</h2></div>
-    <form @submit.stop.prevent="login">
+    <form @submit.stop.prevent="loginClick">
       <CustomInput
-        v-model="usernameText"
+        v-model="formData.username"
         label-name="Username"
-        place-holder-text="username"
-        :is-required="true" />
+        :required="true" />
       <CustomInput
-        v-model="passwordText"
+        v-model="formData.password"
         label-name="Password"
-        place-holder-text="password"
-        :is-required="true" />
+        :required="true" />
       <button type="submit">Login</button>
     </form>
     <p>

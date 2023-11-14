@@ -11,27 +11,28 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      component: DefaultLayout, // Use DefaultLayout for home and about pages
+      component: DefaultLayout, // Use DefaultLayout for main pages
       children: [
         {
-          path: "",
-          name: "Home",
+          path: "Home",
+          name: "home",
           component: HomeView,
         },
       ],
+      redirect: "/auth/login",
     },
     {
       path: "/auth",
-      component: AuthLayout, // Use AuthLayout for login and register pages
+      component: AuthLayout, // Use AuthLayout for auth pages
       children: [
         {
           path: "login",
-          name: "Login",
+          name: "login",
           component: LoginView,
         },
         {
           path: "register",
-          name: "Register",
+          name: "register",
           component: RegisterView,
         },
       ],

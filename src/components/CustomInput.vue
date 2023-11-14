@@ -1,24 +1,21 @@
 <script setup>
 const props = defineProps({
-  isRequired: {
-    type: Boolean,
-    default: false,
-  },
   labelName: String,
   inputText: String,
   placeHolderText: String,
   modelValue: String,
+  required: Boolean,
 });
 const emit = defineEmits(["update:modelValue"]);
 </script>
 
 <template>
-  <label :for="id">{{ labelName }}</label>
+  <label>{{ labelName }}</label>
   <div>
     <input
       type="text"
       :placeholder="placeHolderText"
-      :required="isRequired"
+      :required="required"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)" />
   </div>
