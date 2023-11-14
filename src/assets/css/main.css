@@ -1,1 +1,11 @@
 @import "./base.css";
+
+:root {
+  --bg-black: #313131;
+  --bg-secondary: #e9e9e9;
+  --color-black-0: black;
+  --color-black-1: #333333;
+  --color-black-2: #555555;
+  --color-black-3: #757575;
+  --font-family: "Gelasio", serif;
+}
