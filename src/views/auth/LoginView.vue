@@ -32,12 +32,16 @@ const loginClick = () => {
         <div><h2 class="heading">Log in to Picterest</h2></div>
         <form @submit.stop.prevent="loginClick">
           <CustomInput
+            class="input"
             v-model="formData.username"
             label-name="Username"
+            input-type="text"
             :required="true" />
           <CustomInput
+            class="input"
             v-model="formData.password"
             label-name="Password"
+            input-type="password"
             :required="true" />
           <button type="submit" class="button">Login</button>
         </form>
@@ -74,7 +78,7 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px 60px;
+  padding: 50px 65px;
   margin: 16px;
   background-color: #ffffff;
   border-radius: 16px;
@@ -82,6 +86,9 @@ a {
 .heading {
   font-weight: 700;
   margin: 10px 0 12px;
+}
+.input {
+  min-width: 280px;
 }
 .button {
   font-family: var(--font);
