@@ -11,37 +11,17 @@ const emit = defineEmits(["update:modelValue"]);
 </script>
 
 <template>
-  <div class="container">
-    <div style="padding-bottom: 4px">
+  <div class="mt-3">
+    <div class="pb-1 pl-1">
       <a :id="labelName">{{ labelName }}</a>
     </div>
     <input
+      class="w-full rounded-xl border border-solid border-[#cecece] px-2.5 py-3 transition duration-300 focus:border focus:border-[#888] focus:outline-none"
       :type="inputType"
       :placeholder="placeHolderText"
       :required="required"
       :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)" />
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
   </div>
 </template>
-
-<style scoped>
-input {
-  width: 100%;
-  padding: 10px 15px;
-  border-color: #cecece;
-  border-style: solid;
-  border-radius: 12px;
-  border-width: 1px;
-  font-family: var(--font-family);
-  font-size: 16px;
-  transition: border-color 0.2s ease-in-out;
-}
-input:focus {
-  outline: none;
-  border-color: #888;
-  border-width: 1px;
-}
-.container {
-  margin-top: 12px;
-}
-</style>

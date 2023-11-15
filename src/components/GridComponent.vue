@@ -19,14 +19,14 @@ const props = defineProps({
 function resizeGridItem(item) {
   const grid = document.getElementsByClassName("grid")[0];
   const rowHeight = parseInt(
-    window.getComputedStyle(grid).getPropertyValue("grid-auto-rows")
+    window.getComputedStyle(grid).getPropertyValue("grid-auto-rows"),
   );
   const rowGap = parseInt(
-    window.getComputedStyle(grid).getPropertyValue("grid-row-gap")
+    window.getComputedStyle(grid).getPropertyValue("grid-row-gap"),
   );
   const rowSpan = Math.ceil(
     (item.querySelector(".content").getBoundingClientRect().height + rowGap) /
-      (rowHeight + rowGap)
+      (rowHeight + rowGap),
   );
   item.style.gridRowEnd = "span " + rowSpan;
 }

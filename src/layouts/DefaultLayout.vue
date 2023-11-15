@@ -2,19 +2,14 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthenticationStore } from "../stores/authentication";
+import { useUserStore } from "../stores/user";
 import Navbar from "@/components/Navbar.vue";
 
 const router = useRouter();
 const authentication = useAuthenticationStore();
+const userStore = useUserStore();
 
-onMounted(() => {
-  // check if user is authenticated or not
-  if (!authentication.valid) {
-    router.push({
-      name: "login",
-    });
-  }
-});
+onMounted(() => {});
 </script>
 
 <template>

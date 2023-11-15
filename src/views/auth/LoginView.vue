@@ -2,33 +2,61 @@
 import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthenticationStore } from "../../stores/authentication";
+import { useUserStore } from "../../stores/user";
 import CustomInput from "../../components/CustomInput.vue";
 
 const router = useRouter();
 const authentication = useAuthenticationStore();
+const userStore = useUserStore();
 
 const isLoading = ref(false);
 const formData = reactive({
   username: "",
   password: "",
 });
+const userData = ref({});
 
-const sendAPICall = async () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log("API Callback received");
-      resolve();
-    }, 2000); // Simulating a delay for the API callback
-  });
+const fetchAPI = async () => {
+  return {
+    username: "test",
+    password: "user",
+    fname: "name",
+    lname: "last",
+    profileImage: "",
+    bio: "",
+    ok: true,
+    status: 200,
+  };
+};
+
+const sendAPIRequest = async () => {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // fetching api
+    const response = await fetchAPI();
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response;
+  } catch {
+    throw new Error(`Error fetching data: ${error.message}`);
+  }
 };
 
 const loginClick = async () => {
   // perform sign up logic
+  // turn on loading
   isLoading.value = true;
+
   // start fetching api
-  await sendAPICall();
-  // api callback
-  isLoading.value = false;
+  userData.value = await sendAPIRequest();
+
+  // store user data
+  userStore.addUser(userData.value);
+
   // authenticated
   authentication.authenticate();
   router.push({
@@ -39,93 +67,56 @@ const loginClick = async () => {
 
 <template>
   <div style="padding: 14px; width: 100%; height: 100vh">
-    <div class="outer-container background">
-      <div class="main-container">
+    <div
+      class="flex h-full w-full items-center justify-center bg-cover p-4"
+      style="background-image: url(/src/assets/images/auth-background.png)"
+    >
+      <div
+        class="m-4 flex flex-col items-center rounded-2xl bg-white px-16 py-12"
+      >
         <div>
-          <img height="50" src="/src/assets/images/picterest-logo.png" alt="" />
+          <img
+            class="w-14"
+            src="/src/assets/images/picterest-logo.png"
+            alt=""
+          />
         </div>
-        <div><h2 class="heading">Log in to Picterest</h2></div>
-        <form @submit.stop.prevent="loginClick">
+        <div>
+          <h2 class="mb-3 mt-2.5 text-2xl font-bold">Log in to Picterest</h2>
+        </div>
+        <form class="w-full" @submit.stop.prevent="loginClick">
           <CustomInput
-            class="input"
+            style="min-width: 280px"
             v-model="formData.username"
             label-name="Username"
             input-type="text"
-            :required="true" />
+            :required="true"
+          />
           <CustomInput
-            class="input"
+            style="min-width: 280px"
             v-model="formData.password"
             label-name="Password"
             input-type="password"
-            :required="true" />
-          <div class="loading" v-if="isLoading">
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <button type="submit" class="button">Login</button>
+            :required="true"
+          />
+          <button
+            type="submit"
+            class="duration-00 mb-8 mt-6 h-[48px] w-full rounded-full bg-dark p-3 text-white transition hover:cursor-pointer hover:bg-darken active:bg-black disabled:bg-dark"
+            :disabled="isLoading"
+          >
+            <div class="loading" v-if="isLoading">
+              <div v-for="i in [1, 2, 3]"></div>
+            </div>
+            <div class="font-semibold" v-if="!isLoading">Log in</div>
+          </button>
         </form>
         <p>
           No account yet? Click here to
-          <RouterLink to="/auth/register"><span>sign up</span></RouterLink>
+          <RouterLink to="/auth/register"
+            ><span class="text-black underline">sign up</span></RouterLink
+          >
         </p>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-form {
-  width: 100%;
-}
-a {
-  color: black;
-}
-.background {
-  background-image: url("/src/assets/images/auth-background.png");
-  background-size: cover;
-  max-width: 100%;
-}
-.outer-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-  width: 100%;
-  height: 100%;
-}
-.main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 50px 65px;
-  margin: 16px;
-  background-color: #ffffff;
-  border-radius: 16px;
-}
-.heading {
-  font-weight: 700;
-  margin: 10px 0 12px;
-}
-.input {
-  min-width: 280px;
-}
-.button {
-  font-family: var(--font);
-  font-weight: 600;
-  margin: 24px 0 32px;
-  padding: 12px;
-  width: 100%;
-  background-color: var(--bg-black);
-  color: white;
-  border-radius: 20px;
-  transition: background-color 0.3s;
-}
-.button:hover {
-  cursor: pointer;
-  background-color: #2a2a2a;
-}
-.button:active {
-  background-color: black;
-}
-</style>

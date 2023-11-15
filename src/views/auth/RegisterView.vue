@@ -2,18 +2,22 @@
 import { reactive, ref, watchEffect, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthenticationStore } from "../../stores/authentication";
+import { useUserStore } from "../../stores/user";
 import CustomInput from "../../components/CustomInput.vue";
 
 const router = useRouter();
 const authentication = useAuthenticationStore();
+const userStore = useUserStore();
 
 const isValid = ref(true);
 const isLoading = ref(false);
+const error = ref({});
 const formData = reactive({
   username: "",
   password: "",
   confirmPassword: "",
 });
+const userData = ref({});
 
 watchEffect(() => {
   isValid.value = true;
@@ -23,22 +27,53 @@ watchEffect(() => {
   }
 });
 
-const sendAPICall = async () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log("API Callback received");
-      resolve();
-    }, 2000); // Simulating a delay for the API callback
-  });
+const fetchAPI = async () => {
+  return {
+    username: "test",
+    password: "user",
+    fname: "name",
+    lname: "last",
+    profileImage: "",
+    bio: "",
+    ok: true,
+    status: 200,
+  };
+};
+
+const sendAPIRequest = async () => {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    const response = await fetchAPI();
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response;
+  } catch (error) {
+    throw new Error(`Error fetching data: ${error.message}`);
+  }
 };
 
 const signupClick = async () => {
   // perform sign up logic
+  // check if passwords are the same
+  error.value.password = "";
+  if (formData.password !== formData.confirmPassword) {
+    error.value.password = "* Passwords do not match.";
+    return;
+  }
+
+  // turn on loading
   isLoading.value = true;
+
   // start fetching api
-  await sendAPICall();
-  // api callback
-  isLoading.value = false;
+  userData.value = await sendAPIRequest();
+
+  // store user data
+  userStore.addUser(userData.value);
+
   // authenticated
   authentication.authenticate();
   router.push({
@@ -49,98 +84,57 @@ const signupClick = async () => {
 
 <template>
   <div style="padding: 14px; width: 100%; height: 100vh">
-    <div class="outer-container background">
-      <div class="main-container">
-        <div><h2 class="heading">Sign up</h2></div>
-        <form @submit.stop.prevent="signupClick">
+    <div
+      class="flex h-full w-full items-center justify-center bg-cover p-4"
+      style="background-image: url(/src/assets/images/auth-background.png)"
+    >
+      <div
+        class="m-4 flex flex-col items-center rounded-2xl bg-white px-16 py-12"
+      >
+        <div><h2 class="mb-3 mt-2.5 text-3xl font-bold">Sign up</h2></div>
+        <form class="w-full" @submit.stop.prevent="signupClick">
           <CustomInput
-            class="input"
+            style="min-width: 280px"
             label-name="Username"
             input-type="text"
             v-model="formData.username"
-            :required="true" />
+            :required="true"
+          />
           <CustomInput
-            class="input"
+            style="min-width: 280px"
             label-name="Password"
             input-type="password"
             v-model="formData.password"
-            :required="true" />
+            :required="true"
+          />
           <CustomInput
             class="input"
             label-name="Confirm password"
             input-type="password"
             v-model="formData.confirmPassword"
-            :required="true" />
-          <div class="loading" v-if="isLoading">
-            <div></div>
-            <div></div>
-            <div></div>
+            :required="true"
+          />
+          <div class="mt-2.5 text-red-500" v-if="error.password">
+            {{ error.password }}
           </div>
-          <button type="submit" class="button">Sign up</button>
+          <button
+            type="submit"
+            class="mb-8 mt-6 h-[48px] w-full rounded-full bg-dark p-3 text-white transition duration-200 hover:cursor-pointer hover:bg-darken active:bg-black disabled:bg-dark"
+            :disabled="isLoading"
+          >
+            <div class="loading" v-if="isLoading">
+              <div v-for="i in [1, 2, 3]"></div>
+            </div>
+            <div class="font-semibold" v-if="!isLoading">Sign up</div>
+          </button>
         </form>
         <p>
           Already have an account?
-          <RouterLink to="/auth/login"><span>Log in</span></RouterLink>
+          <RouterLink to="/auth/login"
+            ><span class="text-black underline">Log in</span></RouterLink
+          >
         </p>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-form {
-  width: 100%;
-}
-a {
-  color: black;
-}
-
-.background {
-  background-image: url("/src/assets/images/auth-background.png");
-  background-size: cover;
-  max-width: 100%;
-}
-.outer-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-  width: 100%;
-  height: 100%;
-}
-.main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 50px 65px;
-  margin: 16px;
-  background-color: #ffffff;
-  border-radius: 16px;
-}
-.heading {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 10px 0 12px;
-}
-.input {
-  min-width: 280px;
-}
-.button {
-  font-family: var(--font);
-  font-weight: 600;
-  margin: 24px 0;
-  padding: 12px;
-  width: 100%;
-  background-color: var(--bg-black);
-  color: white;
-  border-radius: 20px;
-  transition: background-color 0.3s;
-}
-.button:hover {
-  cursor: pointer;
-  background-color: #2a2a2a;
-}
-.button:active {
-  background-color: black;
-}
-</style>
