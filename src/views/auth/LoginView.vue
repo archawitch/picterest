@@ -3,22 +3,37 @@ import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthenticationStore } from "../../stores/authentication";
 import CustomInput from "../../components/CustomInput.vue";
-import GridComponent from "../../components/GridComponent.vue";
 
 const router = useRouter();
 const authentication = useAuthenticationStore();
 
+const isLoading = ref(false);
 const formData = reactive({
   username: "",
   password: "",
 });
 
-const loginClick = () => {
-  // Perform login logic here (e.g., make an API request to your PHP backend)
-  // If login is successful, you can redirect the user to the home page
-  // Replace this with your actual login logic
+const sendAPICall = async () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("API Callback received");
+      resolve();
+    }, 2000); // Simulating a delay for the API callback
+  });
+};
+
+const loginClick = async () => {
+  // perform sign up logic
+  isLoading.value = true;
+  // start fetching api
+  await sendAPICall();
+  // api callback
+  isLoading.value = false;
+  // authenticated
   authentication.authenticate();
-  router.push({ name: "home" });
+  router.push({
+    name: "home",
+  });
 };
 </script>
 
@@ -43,6 +58,11 @@ const loginClick = () => {
             label-name="Password"
             input-type="password"
             :required="true" />
+          <div class="loading" v-if="isLoading">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
           <button type="submit" class="button">Login</button>
         </form>
         <p>
@@ -62,7 +82,7 @@ a {
   color: black;
 }
 .background {
-  background-image: url("/src/assets/images/login-background.png");
+  background-image: url("/src/assets/images/auth-background.png");
   background-size: cover;
   max-width: 100%;
 }

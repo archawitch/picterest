@@ -7,12 +7,13 @@ import CustomInput from "../../components/CustomInput.vue";
 const router = useRouter();
 const authentication = useAuthenticationStore();
 
+const isValid = ref(true);
+const isLoading = ref(false);
 const formData = reactive({
   username: "",
   password: "",
   confirmPassword: "",
 });
-const isValid = ref(true);
 
 watchEffect(() => {
   isValid.value = true;
@@ -22,9 +23,23 @@ watchEffect(() => {
   }
 });
 
-const signupClick = () => {
-  // perform sign up logic
+const sendAPICall = async () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("API Callback received");
+      resolve();
+    }, 2000); // Simulating a delay for the API callback
+  });
+};
 
+const signupClick = async () => {
+  // perform sign up logic
+  isLoading.value = true;
+  // start fetching api
+  await sendAPICall();
+  // api callback
+  isLoading.value = false;
+  // authenticated
   authentication.authenticate();
   router.push({
     name: "home",
@@ -56,6 +71,11 @@ const signupClick = () => {
             input-type="password"
             v-model="formData.confirmPassword"
             :required="true" />
+          <div class="loading" v-if="isLoading">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
           <button type="submit" class="button">Sign up</button>
         </form>
         <p>
@@ -76,7 +96,7 @@ a {
 }
 
 .background {
-  background-image: url("/src/assets/images/login-background.png");
+  background-image: url("/src/assets/images/auth-background.png");
   background-size: cover;
   max-width: 100%;
 }

@@ -10,7 +10,7 @@
 
 <!-- GridComponent.vue -->
 <script setup>
-import { onMounted, defineProps } from "vue";
+import { onMounted } from "vue";
 
 const props = defineProps({
   pinData: Array,
@@ -59,8 +59,6 @@ onMounted(() => {
 }
 .item {
   background-color: #ffffff;
-}
-.content {
 }
 .pin {
   width: 100%;
