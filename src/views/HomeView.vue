@@ -1,3 +1,13 @@
+<script setup>
+import imageData from "../assets/json/dummy-images.json";
+import arrayShuffle from "array-shuffle";
+import GridComponent from "../components/GridComponent.vue";
+</script>
+
 <template>
-  <h1>Home Page</h1>
+  <GridComponent
+    :pin-items="arrayShuffle(imageData.items)"
+    from="home"
+  ></GridComponent>
+  <div class="mb-4"></div>
 </template>
