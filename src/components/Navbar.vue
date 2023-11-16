@@ -11,6 +11,7 @@ const userStore = useUserStore();
 const isCreateModalOpen = ref(false);
 const isSettingModalOpen = ref(false);
 const searchText = ref("");
+const inputBarDarken = ref(false);
 
 const isAdmin = computed(() => {
   return userStore.userData.userType == "admin";
@@ -62,17 +63,27 @@ const searchInput = () => {
     </div>
 
     <form
-      class="mr-10 flex w-full items-center rounded-full bg-secondary px-7 py-3"
+      @submit.stop.prevent="searchInput"
+      :class="{
+        'bg-secondary': inputBarDarken,
+        'bg-tertiary': !inputBarDarken,
+      }"
+      class="mr-10 flex w-full items-center rounded-full px-7 py-3 transition"
     >
-      <font-awesome-icon
-        :icon="['fas', 'magnifying-glass']"
-        class="w-[0.85rem] pr-3 text-black-3"
-      />
+      <button type="submit">
+        <font-awesome-icon
+          :icon="['fas', 'magnifying-glass']"
+          class="w-[0.85rem] pr-3 text-black-3"
+        />
+      </button>
+
       <input
         @input="searchInput"
+        @focus="inputBarDarken = true"
+        @blur="inputBarDarken = false"
         type="text"
         placeholder="Search"
-        class="focus: w-full bg-transparent text-black-3 outline-none"
+        class="w-full bg-transparent text-black-3 outline-none"
         v-model="searchText"
       />
     </form>
@@ -94,7 +105,7 @@ const searchInput = () => {
   </nav>
   <div
     v-if="isCreateModalOpen"
-    class="absolute left-[190px] top-[70px] rounded-3xl bg-white py-4 pl-6 pr-14 shadow"
+    class="absolute left-[190px] top-[70px] z-50 rounded-3xl bg-white py-4 pl-6 pr-14 shadow"
   >
     <ul>
       <li class="mb-2">
@@ -111,7 +122,7 @@ const searchInput = () => {
   </div>
   <div
     v-if="isSettingModalOpen"
-    class="absolute right-[30px] top-[70px] rounded-3xl bg-white py-4 pl-6 pr-12 shadow"
+    class="absolute right-[30px] top-[70px] z-50 rounded-3xl bg-white py-4 pl-6 pr-12 shadow"
   >
     <ul>
       <li class="mb-2">
@@ -131,7 +142,6 @@ const searchInput = () => {
       </li>
     </ul>
   </div>
-  <router-link to="/auth/login">Login</router-link>
 </template>
 
 <style scoped>

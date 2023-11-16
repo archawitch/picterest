@@ -1,0 +1,69 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "image": "src/assets/images/dummy-images/⋆.jpg",
+      "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+    },
+    {
+      "id": 2,
+      "image": "src/assets/images/dummy-images/24 Crazy Funny Pics to Smile Up Your Day _ Team Jimmy Joe.jpg"
+    },
+    {
+      "id": 3,
+      "image": "src/assets/images/dummy-images/app icon.jpg"
+    },
+    {
+      "id": 4,
+      "image": "src/assets/images/dummy-images/Bass Guitar Scale Lengths _ ProAudioLand Musician News.jpg"
+    },
+    {
+      "id": 5,
+      "image": "src/assets/images/dummy-images/Black Hole, Alka Vyrus.jpg",
+      "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+    },
+    {
+      "id": 6,
+      "image": "src/assets/images/dummy-images/download (1).jpg"
+    },
+    {
+      "id": 7,
+      "image": "src/assets/images/dummy-images/download.jpg"
+    },
+    {
+      "id": 8,
+      "image": "src/assets/images/dummy-images/First look at Cillian Murphy in Oppenheimer, dir_ Christopher Nolan.jpg"
+    },
+    {
+      "id": 9,
+      "image": "src/assets/images/dummy-images/First Sunrise on Annapurna Dakshin (Annapurna South), Nepal.jpg",
+      "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+    },
+    {
+      "id": 10,
+      "image": "src/assets/images/dummy-images/Girls Will Be Girls_ 30 Funny Black and White Photos of Women From the Past.jpg"
+    },
+    {
+      "id": 11,
+      "image": "src/assets/images/dummy-images/Google.jpg"
+    },
+    {
+      "id": 12,
+      "image": "src/assets/images/dummy-images/Have a Good Weekend_ _ Cup of Jo.jpg",
+      "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+    },
+    {
+      "id": 13,
+      "image": "src/assets/images/dummy-images/Photos Of Black Cats Next to White Cats Creating Together a Purr-fect Composition.jpg"
+    },
+    {
+      "id": 14,
+      "image": "src/assets/images/dummy-images/Piensa en mí.jpg"
+    },
+    {
+      "id": 15,
+      "image": "src/assets/images/dummy-images/Untitled.jpg",
+      "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+    }
+  ]
+}
