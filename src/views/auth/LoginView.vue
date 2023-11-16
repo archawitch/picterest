@@ -1,9 +1,9 @@
 <script setup>
 import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthenticationStore } from "../../stores/authentication";
-import { useUserStore } from "../../stores/user";
-import CustomInput from "../../components/CustomInput.vue";
+import { useAuthenticationStore } from "@/stores/authentication";
+import { useUserStore } from "@/stores/user";
+import CustomInput from "@/components/CustomInput.vue";
 
 const router = useRouter();
 const authentication = useAuthenticationStore();
@@ -22,10 +22,11 @@ const fetchAPI = async () => {
     password: "user",
     fname: "name",
     lname: "last",
-    profileImage: "",
+    profileImage: "/src/assets/images/user/default-profile-image.png",
     bio: "",
     ok: true,
     status: 200,
+    userType: "admin",
   };
 };
 
