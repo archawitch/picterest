@@ -7,6 +7,7 @@ import HomeView from "../views/HomeView.vue";
 import PinView from "../views/PinView.vue";
 import CreatePinView from "../views/CreatePinView.vue";
 import CreateBoardView from "../views/CreateBoardView.vue";
+import EditProfileView from "../views/EditProfileView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
           path: "/create-board",
           name: "create-board",
           component: CreateBoardView,
+        },
+        {
+          path: "/edit-profile",
+          name: "edit-profile",
+          component: EditProfileView,
         },
       ],
       redirect: "/auth/login",

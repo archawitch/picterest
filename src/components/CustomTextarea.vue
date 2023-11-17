@@ -3,7 +3,7 @@ const props = defineProps({
   labelName: String,
   placeHolderText: String,
   modelValue: String,
-  rows: Number,
+  rows: String,
   required: Boolean,
 });
 const emit = defineEmits(["update:modelValue"]);
