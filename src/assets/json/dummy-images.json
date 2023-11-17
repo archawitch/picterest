@@ -2,68 +2,142 @@
   "items": [
     {
       "id": 1,
-      "image": "src/assets/images/dummy-images/⋆.jpg",
+      "image": "/src/assets/images/dummy-images/⋆.jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "john",
+      "creatorFullName": "John Doe",
       "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
     },
     {
       "id": 2,
-      "image": "src/assets/images/dummy-images/24 Crazy Funny Pics to Smile Up Your Day _ Team Jimmy Joe.jpg"
+      "image": "/src/assets/images/dummy-images/24 Crazy Funny Pics to Smile Up Your Day _ Team Jimmy Joe.jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "adam",
+      "creatorFullName": "Adam Smith",
+      "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
     },
     {
       "id": 3,
-      "image": "src/assets/images/dummy-images/app icon.jpg"
+      "image": "/src/assets/images/dummy-images/app icon.jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "john",
+      "creatorFullName": "John Doe",
+      "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
     },
     {
       "id": 4,
-      "image": "src/assets/images/dummy-images/Bass Guitar Scale Lengths _ ProAudioLand Musician News.jpg"
+      "image": "/src/assets/images/dummy-images/Bass Guitar Scale Lengths _ ProAudioLand Musician News.jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "adam",
+      "creatorFullName": "Adam Smith",
+      "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
     },
     {
       "id": 5,
-      "image": "src/assets/images/dummy-images/Black Hole, Alka Vyrus.jpg",
+      "image": "/src/assets/images/dummy-images/Black Hole, Alka Vyrus.jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "john",
+      "creatorFullName": "John Doe",
       "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
     },
     {
       "id": 6,
-      "image": "src/assets/images/dummy-images/download (1).jpg"
+      "image": "/src/assets/images/dummy-images/download (1).jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "adam",
+      "creatorFullName": "Adam Smith",
+      "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
     },
     {
       "id": 7,
-      "image": "src/assets/images/dummy-images/download.jpg"
+      "image": "/src/assets/images/dummy-images/download.jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "john",
+      "creatorFullName": "John Doe",
+      "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
     },
     {
       "id": 8,
-      "image": "src/assets/images/dummy-images/First look at Cillian Murphy in Oppenheimer, dir_ Christopher Nolan.jpg"
+      "image": "/src/assets/images/dummy-images/First look at Cillian Murphy in Oppenheimer, dir_ Christopher Nolan.jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "adam",
+      "creatorFullName": "Adam Smith"
     },
     {
       "id": 9,
-      "image": "src/assets/images/dummy-images/First Sunrise on Annapurna Dakshin (Annapurna South), Nepal.jpg",
+      "image": "/src/assets/images/dummy-images/First Sunrise on Annapurna Dakshin (Annapurna South), Nepal.jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "adam",
+      "creatorFullName": "Adam Smith",
       "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
     },
     {
       "id": 10,
-      "image": "src/assets/images/dummy-images/Girls Will Be Girls_ 30 Funny Black and White Photos of Women From the Past.jpg"
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "john",
+      "creatorFullName": "John Doe",
+      "image": "/src/assets/images/dummy-images/Girls Will Be Girls_ 30 Funny Black and White Photos of Women From the Past.jpg"
     },
     {
       "id": 11,
-      "image": "src/assets/images/dummy-images/Google.jpg"
+      "image": "/src/assets/images/dummy-images/Google.jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "adam",
+      "creatorFullName": "Adam Smith"
     },
     {
       "id": 12,
-      "image": "src/assets/images/dummy-images/Have a Good Weekend_ _ Cup of Jo.jpg",
+      "image": "/src/assets/images/dummy-images/Have a Good Weekend_ _ Cup of Jo.jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "john",
+      "creatorFullName": "John Doe",
       "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
     },
     {
       "id": 13,
-      "image": "src/assets/images/dummy-images/Photos Of Black Cats Next to White Cats Creating Together a Purr-fect Composition.jpg"
+      "image": "/src/assets/images/dummy-images/Photos Of Black Cats Next to White Cats Creating Together a Purr-fect Composition.jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "adam",
+      "creatorFullName": "Adam Smith"
     },
     {
       "id": 14,
-      "image": "src/assets/images/dummy-images/Piensa en mí.jpg"
+      "image": "/src/assets/images/dummy-images/Piensa en mí.jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "adam",
+      "creatorFullName": "Adam Smith"
     },
     {
       "id": 15,
-      "image": "src/assets/images/dummy-images/Untitled.jpg",
+      "image": "/src/assets/images/dummy-images/Untitled.jpg",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "john",
+      "creatorFullName": "John Doe",
       "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+    },
+    {
+      "id": 16,
+      "image": "https://media.istockphoto.com/id/1488226639/th/%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%96%E0%B9%88%E0%B8%B2%E0%B8%A2/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B9%80%E0%B8%AB%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%99%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%8A%E0%B8%B2%E0%B8%A2%E0%B8%AD%E0%B8%AD%E0%B8%97%E0%B8%B4%E0%B8%AA%E0%B8%95%E0%B8%B4%E0%B8%81.jpg?s=612x612&w=0&k=20&c=ZVcGnwJ0w8EpnvvBZ1_C2Bu5vT2xl-HN2uuCh5oqlvE=",
+      "title": "I Love All Cats.",
+      "description": "I am a cat lover who love all cats in this world.",
+      "creatorUsername": "john",
+      "creatorFullName": "John Doe",
+      "url": "https://media.istockphoto.com/id/1488226639/th/%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%96%E0%B9%88%E0%B8%B2%E0%B8%A2/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B9%80%E0%B8%AB%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%99%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%8A%E0%B8%B2%E0%B8%A2%E0%B8%AD%E0%B8%AD%E0%B8%97%E0%B8%B4%E0%B8%AA%E0%B8%95%E0%B8%B4%E0%B8%81.jpg?s=612x612&w=0&k=20&c=ZVcGnwJ0w8EpnvvBZ1_C2Bu5vT2xl-HN2uuCh5oqlvE="
     }
   ]
 }

@@ -11,7 +11,7 @@ const userStore = useUserStore();
 
 const isValid = ref(true);
 const isLoading = ref(false);
-const error = ref({});
+const message = ref({});
 const formData = reactive({
   username: "",
   password: "",
@@ -29,10 +29,10 @@ watchEffect(() => {
 
 const fetchAPI = async () => {
   return {
-    username: "test",
-    password: "user",
-    fname: "name",
-    lname: "last",
+    username: "adam",
+    password: "adam",
+    fname: "Adam",
+    lname: "Smith",
     profileImage: "/src/assets/images/user/default-profile-image.png",
     bio: "",
     ok: true,
@@ -60,9 +60,9 @@ const sendAPIRequest = async () => {
 const signupClick = async () => {
   // perform sign up logic
   // check if passwords are the same
-  error.value.password = "";
+  message.value.error = "";
   if (formData.password !== formData.confirmPassword) {
-    error.value.password = "* Passwords do not match.";
+    message.value.error = "* Passwords do not match.";
     return;
   }
 
@@ -77,6 +77,15 @@ const signupClick = async () => {
 
   // authenticated
   authentication.authenticate();
+
+  // response to the user
+  message.value.success = "Welcome to Picterest";
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 500);
+  });
+
   router.push({
     name: "home",
   });
@@ -109,18 +118,24 @@ const signupClick = async () => {
             :required="true"
           />
           <CustomInput
-            class="input"
+            style="min-width: 280px"
+            class="mb-3"
             label-name="Confirm password"
             input-type="password"
             v-model="formData.confirmPassword"
             :required="true"
           />
-          <div class="mt-2.5 text-red-500" v-if="error.password">
+          <div class="text-red-500" v-if="message.error">
             {{ error.password }}
+          </div>
+          <div class="flex items-center justify-center" v-if="message.success">
+            {{ message.success }}&nbsp;<font-awesome-icon
+              :icon="['fas', 'face-smile']"
+            />
           </div>
           <button
             type="submit"
-            class="mb-8 mt-6 h-[48px] w-full rounded-full bg-dark p-3 text-white transition duration-200 hover:cursor-pointer hover:bg-darken active:bg-black disabled:bg-dark"
+            class="mb-8 mt-3 h-[48px] w-full rounded-full bg-dark p-3 text-white transition duration-200 hover:cursor-pointer hover:bg-darken active:bg-black disabled:bg-dark"
             :disabled="isLoading"
           >
             <div class="loading" v-if="isLoading">
