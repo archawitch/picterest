@@ -133,7 +133,7 @@ const searchInput = () => {
         >
       </li>
       <li>
-        <router-link :to="{ name: 'home' }"
+        <router-link :to="{ name: 'create-board' }"
           ><button @click="resetModal()">Create board</button></router-link
         >
       </li>
