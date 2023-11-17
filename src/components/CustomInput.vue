@@ -16,7 +16,7 @@ const emit = defineEmits(["update:modelValue"]);
       <a :id="labelName">{{ labelName }}</a>
     </div>
     <input
-      class="w-full rounded-xl border border-solid border-[#cecece] px-2.5 py-3 transition duration-300 focus:border focus:border-[#888] focus:outline-none"
+      class="w-full rounded-xl border border-solid border-[#cecece] px-4 py-3 transition duration-300 focus:border focus:border-[#888] focus:outline-none"
       :type="inputType"
       :placeholder="placeHolderText"
       :required="required"

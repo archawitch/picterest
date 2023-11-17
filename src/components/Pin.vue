@@ -1,5 +1,12 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { usePinStore } from "../stores/pin";
+import { useNavbarStore } from "../stores/navbar";
+
+const router = useRouter();
+const pinStore = usePinStore();
+const navbarStore = useNavbarStore();
 
 const props = defineProps({
   pinData: Object,
@@ -21,6 +28,18 @@ const savePin = () => {
     // ...
   }
 };
+
+const goToPin = () => {
+  // store pin data
+  pinStore.readPin(props.pinData);
+  // reset navbar modals
+  navbarStore.resetModal();
+  // redirect to pin page
+  router.push({
+    name: "pin",
+    params: { id: props.pinData.id },
+  });
+};
 </script>
 
 <template>
@@ -29,9 +48,10 @@ const savePin = () => {
       class="relative w-full transition hover:brightness-90"
       @mouseover="showPinDetail = true"
       @mouseleave="showPinDetail = false"
+      @click="goToPin()"
     >
       <button
-        @click="savePin()"
+        @click.stop="savePin()"
         v-if="from === 'home'"
         class="absolute right-4 top-4 z-10 rounded-full bg-dark px-5 py-3 text-white transition hover:bg-darken"
         :class="{
@@ -48,6 +68,7 @@ const savePin = () => {
         v-if="
           pinData.url !== undefined && pinData.url !== null && from === 'home'
         "
+        @click.stop=""
         class="absolute bottom-4 left-4 z-10 text-4xl"
         :class="{
           hidden: !showPinDetail,

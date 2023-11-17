@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
-import App from "../App.vue";
-import HomeView from "../views/HomeView.vue";
-import LoginView from "../views/auth/LoginView.vue";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import AuthLayout from "../layouts/AuthLayout.vue";
+import LoginView from "../views/auth/LoginView.vue";
 import RegisterView from "../views/auth/RegisterView.vue";
+import HomeView from "../views/HomeView.vue";
+import PinView from "../views/PinView.vue";
+import CreatePinView from "../views/CreatePinView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,9 +15,19 @@ const router = createRouter({
       component: DefaultLayout, // Use DefaultLayout for main pages
       children: [
         {
-          path: "Home",
+          path: "/home",
           name: "home",
           component: HomeView,
+        },
+        {
+          path: "/pin/:id",
+          name: "pin",
+          component: PinView,
+        },
+        {
+          path: "/create-pin",
+          name: "create-pin",
+          component: CreatePinView,
         },
       ],
       redirect: "/auth/login",

@@ -18,10 +18,10 @@ const userData = ref({});
 
 const fetchAPI = async () => {
   return {
-    username: "test",
-    password: "user",
-    fname: "name",
-    lname: "last",
+    username: "adam",
+    password: "adam",
+    fname: "Adam",
+    lname: "Smith",
     profileImage: "/src/assets/images/user/default-profile-image.png",
     bio: "",
     ok: true,

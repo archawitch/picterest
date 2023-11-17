@@ -8,21 +8,29 @@ const router = useRouter();
 const navbarStore = useNavbarStore();
 const userStore = useUserStore();
 
-const isCreateModalOpen = ref(false);
-const isSettingModalOpen = ref(false);
 const searchText = ref("");
 const inputBarDarken = ref(false);
 
 const isAdmin = computed(() => {
-  return userStore.userData.userType == "admin";
+  return userStore.userData.userType === "admin";
 });
 
 const toggleCreateModal = () => {
-  isCreateModalOpen.value = !isCreateModalOpen.value;
+  if (navbarStore.isSettingModalOpen) {
+    navbarStore.toggleSettingModal();
+  }
+  navbarStore.toggleCreateModal();
 };
 
 const toggleSettingModal = () => {
-  isSettingModalOpen.value = !isSettingModalOpen.value;
+  if (navbarStore.isCreateModalOpen) {
+    navbarStore.toggleCreateModal();
+  }
+  navbarStore.toggleSettingModal();
+};
+
+const resetModal = () => {
+  navbarStore.resetModal();
 };
 
 const searchInput = () => {
@@ -36,14 +44,15 @@ const searchInput = () => {
 <template>
   <nav class="flex w-full items-center justify-between bg-white px-10 py-4">
     <router-link :to="{ name: 'home' }">
-      <button class="hidden w-[30px] md:mr-10 md:block">
+      <button @click="resetModal" class="hidden w-[30px] md:mr-10 md:block">
         <img src="@/assets/images/picterest-logo.png" alt="" />
       </button>
     </router-link>
     <div class="pr-5">
-      <router-link :to="{ name: 'login' }">
+      <router-link :to="{ name: 'home' }">
         <button
-          class="rounded-full px-5 py-3"
+          @click="resetModal"
+          class="rounded-full px-5 py-3 transition hover:bg-dark hover:text-white"
           :class="{ active: navbarStore.isHomePage }"
           :disabled="navbarStore.isHomePage"
         >
@@ -63,7 +72,10 @@ const searchInput = () => {
     </div>
 
     <form
-      @submit.stop.prevent="searchInput"
+      @submit.stop.prevent="
+        resetModal();
+        searchInput();
+      "
       :class="{
         'bg-secondary': inputBarDarken,
         'bg-tertiary': !inputBarDarken,
@@ -79,8 +91,14 @@ const searchInput = () => {
 
       <input
         @input="searchInput"
-        @focus="inputBarDarken = true"
-        @blur="inputBarDarken = false"
+        @focus="
+          inputBarDarken = true;
+          resetModal();
+        "
+        @blur="
+          inputBarDarken = false;
+          resetModal();
+        "
         type="text"
         placeholder="Search"
         class="w-full bg-transparent text-black-3 outline-none"
@@ -89,13 +107,14 @@ const searchInput = () => {
     </form>
     <router-link class="flex" :to="{ name: 'home' }">
       <button
+        @click="resetModal()"
         class="h-[50px] w-[50px] bg-cover"
         :style="{
           backgroundImage: 'url(' + userStore.userData.profileImage + ')',
         }"
       ></button>
     </router-link>
-    <button @click="toggleSettingModal" class="ml-4">
+    <button @click="toggleSettingModal()" class="ml-4">
       <span
         ><font-awesome-icon
           :icon="['fas', 'chevron-down']"
@@ -104,40 +123,40 @@ const searchInput = () => {
     </button>
   </nav>
   <div
-    v-if="isCreateModalOpen"
+    v-if="navbarStore.isCreateModalOpen"
     class="absolute left-[190px] top-[70px] z-50 rounded-3xl bg-white py-4 pl-6 pr-14 shadow"
   >
     <ul>
       <li class="mb-2">
-        <router-link :to="{ name: 'home' }"
-          ><button>Create pin</button></router-link
+        <router-link :to="{ name: 'create-pin' }"
+          ><button @click="resetModal()">Create pin</button></router-link
         >
       </li>
       <li>
         <router-link :to="{ name: 'home' }"
-          ><button>Create board</button></router-link
+          ><button @click="resetModal()">Create board</button></router-link
         >
       </li>
     </ul>
   </div>
   <div
-    v-if="isSettingModalOpen"
+    v-if="navbarStore.isSettingModalOpen"
     class="absolute right-[30px] top-[70px] z-50 rounded-3xl bg-white py-4 pl-6 pr-12 shadow"
   >
     <ul>
       <li class="mb-2">
         <router-link :to="{ name: 'home' }"
-          ><button @click="">Edit Profile</button></router-link
+          ><button @click="resetModal()">Edit Profile</button></router-link
         >
       </li>
       <li v-if="isAdmin" class="mb-2">
         <router-link :to="{ name: 'home' }"
-          ><button>Manage User</button></router-link
+          ><button @click="resetModal()">Manage User</button></router-link
         >
       </li>
       <li>
         <router-link :to="{ name: 'login' }"
-          ><button>Log out</button></router-link
+          ><button @click="resetModal()">Log out</button></router-link
         >
       </li>
     </ul>
@@ -148,6 +167,5 @@ const searchInput = () => {
 .active {
   background-color: var(--bg-black);
   color: white;
-  font-weight: 600;
 }
 </style>

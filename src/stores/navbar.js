@@ -2,7 +2,9 @@ import { defineStore } from "pinia";
 
 export const useNavbarStore = defineStore("navbarStore", {
   state: () => ({
-    isHomePage: true,
+    isHomePage: false,
+    isCreateModalOpen: false,
+    isSettingModalOpen: false,
   }),
   actions: {
     addCreateActive() {
@@ -10,6 +12,16 @@ export const useNavbarStore = defineStore("navbarStore", {
     },
     removeCreateActive() {
       this.isHomePage = false;
+    },
+    toggleCreateModal() {
+      this.isCreateModalOpen = !this.isCreateModalOpen;
+    },
+    toggleSettingModal() {
+      this.isSettingModalOpen = !this.isSettingModalOpen;
+    },
+    resetModal() {
+      this.isCreateModalOpen = false;
+      this.isSettingModalOpen = false;
     },
   },
 });
