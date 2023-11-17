@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="px-4">
+  <div class="px-4 pb-4">
     <MasonryWall
       :items="pinItems"
       :ssr-columns="1"

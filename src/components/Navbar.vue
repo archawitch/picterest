@@ -145,7 +145,7 @@ const searchInput = () => {
   >
     <ul>
       <li class="mb-2">
-        <router-link :to="{ name: 'home' }"
+        <router-link :to="{ name: 'edit-profile' }"
           ><button @click="resetModal()">Edit Profile</button></router-link
         >
       </li>

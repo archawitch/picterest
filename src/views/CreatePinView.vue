@@ -117,7 +117,7 @@ const uploadPin = () => {
           </label>
           <label
             :class="{ hidden: !data.image }"
-            class="flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-xl text-sm text-black-3"
+            class="flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-xl text-sm text-black-2"
           >
             <img
               class="w-[252px] rounded-xl"
@@ -125,8 +125,11 @@ const uploadPin = () => {
               :src="data.image"
               alt="preview image"
             />
-            <div class="pt-4">
-              <font-awesome-icon class="mr-2" :icon="['fas', 'arrow-up']" />
+            <div class="flex items-center pt-4">
+              <font-awesome-icon
+                class="mr-2 text-base"
+                :icon="['fas', 'circle-up']"
+              />
               <span>reupload</span>
               <input
                 class="hidden opacity-0 outline-none"
