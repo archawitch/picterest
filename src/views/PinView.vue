@@ -2,7 +2,6 @@
 import { ref, reactive, computed } from "vue";
 import { usePinStore } from "../stores/pin";
 import { useUserStore } from "../stores/user";
-import { watch } from "vue";
 
 const pinStore = usePinStore();
 const userStore = useUserStore();

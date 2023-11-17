@@ -1,5 +1,4 @@
 <script setup>
-import { watch, watchEffect } from "vue";
 import { ref, reactive, computed } from "vue";
 import { useUserStore } from "../stores/user";
 
@@ -71,11 +70,11 @@ const uploadPin = () => {
   <div
     class="flex min-h-[calc(100%-82px)] items-center justify-center bg-tertiary py-8"
   >
-    <div class="flex flex-col rounded-2xl bg-white p-8">
+    <div class="flex flex-col rounded-2xl bg-white p-8 shadow">
       <div class="flex items-start">
         <div class="flex w-[450px] flex-wrap">
           <span
-            class="mb-4 mr-2 rounded-full bg-secondary px-4 py-2 text-sm"
+            class="mb-4 mr-2 rounded-full bg-secondary px-4 py-2"
             v-for="tag in data.tags"
             >#{{ tag }}</span
           >
@@ -92,7 +91,7 @@ const uploadPin = () => {
           </select>
           <button
             @click.stop="uploadPin"
-            class="rounded-lg bg-dark px-4 py-2 text-sm text-white"
+            class="rounded-lg bg-dark px-4 py-2 text-white"
           >
             Save
           </button>
