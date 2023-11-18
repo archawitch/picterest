@@ -12,4 +12,5 @@ export const usePinStore = defineStore("pin", {
       this.userData = null;
     },
   },
+  persist: true,
 });

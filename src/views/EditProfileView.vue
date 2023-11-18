@@ -1,12 +1,72 @@
 <script setup>
-import { reactive } from "vue";
+import { ref, reactive } from "vue";
+import { useRoute } from "vue-router";
 import { useUserStore } from "../stores/user";
 import CustomInput from "../components/CustomInput.vue";
 import CustomTextarea from "../components/CustomTextarea.vue";
+import { onBeforeMount } from "vue";
+
+const users = reactive([
+  {
+    username: "adam",
+    password: "adam",
+    fname: "Adam",
+    lname: "Smith",
+    email: "example@mail.com",
+    profileImage: "/src/assets/images/user/default-profile-image.png",
+    bio: "I am a cat lover.",
+    userType: "admin",
+  },
+  {
+    username: "john",
+    password: "doe",
+    fname: "John",
+    lname: "Doe",
+    email: "example123@mail.com",
+    profileImage: "/src/assets/images/user/default-profile-image.png",
+    bio: "I am a cat lover.",
+    userType: "user",
+  },
+  {
+    username: "john_wick",
+    password: "john",
+    fname: "John",
+    lname: "Wick",
+    email: "ex@mail.com",
+    profileImage: "/src/assets/images/user/default-profile-image.png",
+    bio: "I am a cat lover.",
+    userType: "user",
+  },
+  {
+    username: "andrea",
+    password: "andrea",
+    fname: "Andrea",
+    lname: "Onana",
+    email: "exampleonanaygyg@mail.com",
+    profileImage: "/src/assets/images/user/default-profile-image.png",
+    bio: "I am god.",
+    userType: "user",
+  },
+]);
+
+const route = useRoute();
 
 const userStore = useUserStore();
 
-const userData = reactive({ ...userStore.userData });
+let userData = reactive({});
+
+onBeforeMount(() => {
+  userData = findUser(route.params.username);
+});
+
+const findUser = (username) => {
+  if (username !== undefined) {
+    return {
+      ...users.find((user) => user.username === username),
+    };
+  }
+  return { ...userStore.userData };
+};
 
 const changeProfileImage = (e) => {
   const file = e.target.files[0];

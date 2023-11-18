@@ -143,28 +143,28 @@ const uploadPin = () => {
         <div class="w-[380px]">
           <div class="pb-4 pl-8 pr-0 pt-8">
             <input
-              class="mb-1 ml-2 text-2xl text-black-1 outline-none"
+              class="mb-1 w-full px-2 text-2xl text-black-1 outline-none"
               type="text"
               placeholder="Add Title"
               v-model="data.title"
             />
             <hr class="mb-12" />
             <input
-              class="mb-1 ml-2 text-black-1 outline-none"
+              class="mb-1 w-full px-2 text-black-1 outline-none"
               type="text"
               placeholder="Add Description"
               v-model="data.description"
             />
             <hr class="mb-6" />
             <input
-              class="mb-1 ml-2 text-black-1 outline-none"
+              class="mb-1 w-full px-2 text-black-1 outline-none"
               type="text"
               placeholder="Add Tags"
               v-model="inputTags"
             />
             <hr class="mb-6" />
             <input
-              class="mb-1 ml-2 text-black-1 outline-none"
+              class="mb-1 w-full px-2 text-black-1 outline-none"
               type="text"
               placeholder="Add URL"
               v-model="data.url"

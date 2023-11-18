@@ -24,4 +24,5 @@ export const useNavbarStore = defineStore("navbarStore", {
       this.isSettingModalOpen = false;
     },
   },
+  persist: true,
 });

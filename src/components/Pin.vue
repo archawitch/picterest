@@ -51,33 +51,31 @@ const goToPin = () => {
       @click="goToPin()"
     >
       <button
-        @click.stop="savePin()"
         v-if="from === 'home'"
-        class="absolute right-4 top-4 z-10 rounded-full bg-dark px-5 py-3 text-white transition hover:bg-darken"
+        @click.stop="savePin()"
+        class="absolute right-4 top-4 z-10 rounded-full bg-dark px-5 py-3 transition hover:bg-darken"
         :class="{
-          hidden: !showPinDetail,
-          block: showPinDetail,
-          'bg-dark': !isSaved,
-          'hover:bg-darken': !isSaved,
-          'bg-darken': isSaved,
+          'bg-transparent': !showPinDetail,
+          'text-transparent': !showPinDetail,
+          'bg-dark': showPinDetail && !isSaved,
+          'hover:bg-darken': showPinDetail && !isSaved,
+          'bg-darken': showPinDetail && isSaved,
+          'text-white': showPinDetail,
         }"
       >
         {{ !isSaved ? "Save" : "Saved!" }}
       </button>
       <a
-        v-if="
-          pinData.url !== undefined && pinData.url !== null && from === 'home'
-        "
         @click.stop=""
         class="absolute bottom-4 left-4 z-10 text-4xl"
         :class="{
-          hidden: !showPinDetail,
-          block: showPinDetail,
+          'text-transparent': !showPinDetail,
+          'text-gray-400': showPinDetail,
         }"
         :href="pinData.url"
         target="_blank"
         ><font-awesome-icon
-          class="text-gray-400 transition hover:brightness-[75%] hover:duration-300"
+          class="transition hover:brightness-[75%] hover:duration-300"
           :icon="['fas', 'square-arrow-up-right']"
       /></a>
       <img class="w-full rounded-2xl" :src="pinData.image" alt="" />

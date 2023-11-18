@@ -1,13 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
-import DefaultLayout from "../layouts/DefaultLayout.vue";
 import AuthLayout from "../layouts/AuthLayout.vue";
-import LoginView from "../views/auth/LoginView.vue";
-import RegisterView from "../views/auth/RegisterView.vue";
-import HomeView from "../views/HomeView.vue";
-import PinView from "../views/PinView.vue";
-import CreatePinView from "../views/CreatePinView.vue";
-import CreateBoardView from "../views/CreateBoardView.vue";
-import EditProfileView from "../views/EditProfileView.vue";
+import DefaultLayout from "../layouts/DefaultLayout.vue";
+import {
+  LoginView,
+  RegisterView,
+  HomeView,
+  PinView,
+  BoardView,
+  CreatePinView,
+  CreateBoardView,
+  EditProfileView,
+  ManageUserView,
+  ProfileView,
+} from "../views";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +37,11 @@ const router = createRouter({
           component: CreatePinView,
         },
         {
+          path: "/board/:id",
+          name: "board",
+          component: BoardView,
+        },
+        {
           path: "/create-board",
           name: "create-board",
           component: CreateBoardView,
@@ -40,6 +50,21 @@ const router = createRouter({
           path: "/edit-profile",
           name: "edit-profile",
           component: EditProfileView,
+        },
+        {
+          path: "/edit-profile/:username",
+          name: "edit-profile-admin",
+          component: EditProfileView,
+        },
+        {
+          path: "/manage-user",
+          name: "manage-user",
+          component: ManageUserView,
+        },
+        {
+          path: "/profile",
+          name: "profile",
+          component: ProfileView,
         },
       ],
       redirect: "/auth/login",

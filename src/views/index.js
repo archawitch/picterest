@@ -1,0 +1,10 @@
+export { default as LoginView } from "./auth/LoginView.vue";
+export { default as RegisterView } from "./auth/RegisterView.vue";
+export { default as HomeView } from "./HomeView.vue";
+export { default as PinView } from "./PinView.vue";
+export { default as BoardView } from "./BoardView.vue";
+export { default as CreatePinView } from "./CreatePinView.vue";
+export { default as CreateBoardView } from "./CreateBoardView.vue";
+export { default as EditProfileView } from "./EditProfileView.vue";
+export { default as ManageUserView } from "./ManageUserView.vue";
+export { default as ProfileView } from "./ProfileView.vue";
