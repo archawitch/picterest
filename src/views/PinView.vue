@@ -42,12 +42,12 @@ const tags = reactive([
 const comments = reactive([
   {
     name: "John Doe",
-    profileImage: "/src/assets/images/user/default-profile-image.png",
+    profileImage: "/src/assets/images/dummy-images/Google.jpg",
     comment: "So lovely!",
   },
   {
     name: "Adam Smith",
-    profileImage: "/src/assets/images/user/default-profile-image.png",
+    profileImage: "/src/assets/images/dummy-images/Google.jpg",
     comment: "I think so!",
   },
 ]);
@@ -139,7 +139,7 @@ const followUser = () => {
         </div>
         <div class="mt-6 flex items-center">
           <img
-            class="h[40px] mr-4 w-[40px]"
+            class="mr-4 h-[50px] w-[50px] rounded-full object-cover"
             :src="userStore.userData.profileImage"
             alt=""
           />
@@ -165,7 +165,7 @@ const followUser = () => {
             class="mt-3 flex items-center text-sm"
           >
             <img
-              class="h[32px] mr-4 w-[32px]"
+              class="mr-4 h-[40px] w-[40px] rounded-full object-cover"
               :src="comment.profileImage"
               alt=""
             />
@@ -176,11 +176,13 @@ const followUser = () => {
         </div>
         <hr />
         <div class="mt-4 flex w-full items-center">
-          <img
-            class="h[40px] mr-4 w-[40px]"
-            :src="userStore.userData.profileImage"
-            alt=""
-          />
+          <div class="pr-2">
+            <img
+              class="mr-4 h-[48px] w-[48px] rounded-full object-cover"
+              :src="userStore.userData.profileImage"
+              alt=""
+            />
+          </div>
           <div
             :class="{
               'bg-secondary': commentBarDarken,

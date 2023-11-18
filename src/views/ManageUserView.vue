@@ -9,7 +9,7 @@ const users = reactive([
     fname: "Adam",
     lname: "Smith",
     email: "example@mail.com",
-    profileImage: "/src/assets/images/user/default-profile-image.png",
+    profileImage: "/src/assets/images/dummy-images/Google.jpg",
     bio: "I am a cat lover.",
     userType: "admin",
   },
@@ -19,7 +19,7 @@ const users = reactive([
     fname: "John",
     lname: "Doe",
     email: "example123@mail.com",
-    profileImage: "/src/assets/images/user/default-profile-image.png",
+    profileImage: "/src/assets/images/dummy-images/Google.jpg",
     bio: "I am a cat lover.",
     userType: "user",
   },
@@ -29,7 +29,7 @@ const users = reactive([
     fname: "John",
     lname: "Wick",
     email: "ex@mail.com",
-    profileImage: "/src/assets/images/user/default-profile-image.png",
+    profileImage: "/src/assets/images/dummy-images/Google.jpg",
     bio: "I am a cat lover.",
     userType: "user",
   },
@@ -39,7 +39,7 @@ const users = reactive([
     fname: "Andrea",
     lname: "Onana",
     email: "exampleonanaygyg@mail.com",
-    profileImage: "/src/assets/images/user/default-profile-image.png",
+    profileImage: "/src/assets/images/dummy-images/Google.jpg",
     bio: "I am god.",
     userType: "user",
   },
@@ -81,7 +81,10 @@ const deleteUser = (username) => {
         :key="user.username"
       >
         <div class="pr-8">
-          <img class="w-[70px]" :src="user.profileImage" />
+          <img
+            class="h-[70px] w-[70px] rounded-full object-cover"
+            :src="user.profileImage"
+          />
         </div>
         <div class="w-[200px] px-8">{{ user.fname }} {{ user.lname }}</div>
         <div class="flex-grow pl-8 pr-20">{{ user.email }}</div>

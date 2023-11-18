@@ -5,6 +5,7 @@ import { useUserStore } from "../stores/user";
 import CustomInput from "../components/CustomInput.vue";
 import CustomTextarea from "../components/CustomTextarea.vue";
 import { onBeforeMount } from "vue";
+import { watch } from "vue";
 
 const users = reactive([
   {
@@ -53,17 +54,16 @@ const route = useRoute();
 
 const userStore = useUserStore();
 
-let userData = reactive({});
+const userData = reactive({ profileImage: null });
 
-onBeforeMount(() => {
-  userData = findUser(route.params.username);
+onBeforeMount(async () => {
+  // Use Vue.set to update reactive properties
+  Object.assign(userData, await findUser(route.params.username));
 });
 
-const findUser = (username) => {
+const findUser = async (username) => {
   if (username !== undefined) {
-    return {
-      ...users.find((user) => user.username === username),
-    };
+    return { ...users.find((user) => user.username === username) };
   }
   return { ...userStore.userData };
 };
@@ -101,7 +101,7 @@ const saveProfile = () => {
       </div>
       <div class="mt-6 flex items-center justify-center">
         <img
-          class="h-[100px] w-[100px] rounded-full"
+          class="h-[100px] w-[100px] rounded-full object-cover"
           :src="userData.profileImage"
         />
         <label
@@ -112,7 +112,7 @@ const saveProfile = () => {
             class="hidden opacity-0 outline-none"
             type="file"
             accept="image/png, image/jpeg"
-            @change="changeProfileImage"
+            @change="($event) => changeProfileImage($event)"
           />
         </label>
       </div>
