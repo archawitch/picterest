@@ -9,4 +9,5 @@ export const useAuthenticationStore = defineStore("authentication", {
       this.valid = true;
     },
   },
+  persist: true,
 });

@@ -9,4 +9,5 @@ export const useUserStore = defineStore("user", {
       this.userData = user;
     },
   },
+  persist: true,
 });

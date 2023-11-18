@@ -52,7 +52,7 @@ const searchInput = () => {
       <router-link :to="{ name: 'home' }">
         <button
           @click="resetModal"
-          class="rounded-full px-5 py-3 transition hover:bg-dark hover:text-white"
+          class="rounded-full px-5 py-3 font-semibold transition duration-150 hover:bg-dark hover:text-white"
           :class="{ active: navbarStore.isHomePage }"
           :disabled="navbarStore.isHomePage"
         >
@@ -62,7 +62,7 @@ const searchInput = () => {
     </div>
     <div class="w-[170px] pl-5 pr-8">
       <button @click="toggleCreateModal()" class="flex">
-        <span>Create&nbsp;</span>
+        <span class="font-semibold">Create&nbsp;</span>
         <span class="ml-1"
           ><font-awesome-icon
             :icon="['fas', 'chevron-down']"
@@ -105,7 +105,7 @@ const searchInput = () => {
         v-model="searchText"
       />
     </form>
-    <router-link class="flex" :to="{ name: 'home' }">
+    <router-link class="flex" :to="{ name: 'profile' }">
       <button
         @click="resetModal()"
         class="h-[50px] w-[50px] bg-cover"
@@ -150,7 +150,7 @@ const searchInput = () => {
         >
       </li>
       <li v-if="isAdmin" class="mb-2">
-        <router-link :to="{ name: 'home' }"
+        <router-link :to="{ name: 'manage-user' }"
           ><button @click="resetModal()">Manage User</button></router-link
         >
       </li>

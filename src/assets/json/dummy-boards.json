@@ -1,0 +1,240 @@
+{
+  "boards": [
+    {
+      "id": 1,
+      "description": "board 1",
+      "name": "board 1",
+      "pins": [
+        {
+          "id": 1,
+          "image": "/src/assets/images/dummy-images/⋆.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "description": "board 2",
+      "name": "board 2",
+      "pins": [
+        {
+          "id": 1,
+          "image": "/src/assets/images/dummy-images/⋆.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        },
+        {
+          "id": 2,
+          "image": "/src/assets/images/dummy-images/24 Crazy Funny Pics to Smile Up Your Day _ Team Jimmy Joe.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "adam",
+          "creatorFullName": "Adam Smith",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "description": "board 3",
+      "name": "board 3",
+      "pins": [
+        {
+          "id": 1,
+          "image": "/src/assets/images/dummy-images/⋆.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        },
+        {
+          "id": 2,
+          "image": "/src/assets/images/dummy-images/24 Crazy Funny Pics to Smile Up Your Day _ Team Jimmy Joe.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "adam",
+          "creatorFullName": "Adam Smith",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        },
+        {
+          "id": 3,
+          "image": "/src/assets/images/dummy-images/app icon.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "description": "board 4",
+      "name": "board 4",
+      "pins": [
+        {
+          "id": 1,
+          "image": "/src/assets/images/dummy-images/⋆.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        },
+        {
+          "id": 2,
+          "image": "/src/assets/images/dummy-images/24 Crazy Funny Pics to Smile Up Your Day _ Team Jimmy Joe.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "adam",
+          "creatorFullName": "Adam Smith",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        },
+        {
+          "id": 3,
+          "image": "/src/assets/images/dummy-images/app icon.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        },
+        {
+          "id": 4,
+          "image": "/src/assets/images/dummy-images/download (1).jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "description": "board 1",
+      "name": "board 1",
+      "pins": [
+        {
+          "id": 1,
+          "image": "/src/assets/images/dummy-images/⋆.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "description": "board 2",
+      "name": "board 2",
+      "pins": [
+        {
+          "id": 1,
+          "image": "/src/assets/images/dummy-images/⋆.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        },
+        {
+          "id": 2,
+          "image": "/src/assets/images/dummy-images/24 Crazy Funny Pics to Smile Up Your Day _ Team Jimmy Joe.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "adam",
+          "creatorFullName": "Adam Smith",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "description": "board 3",
+      "name": "board 3",
+      "pins": [
+        {
+          "id": 1,
+          "image": "/src/assets/images/dummy-images/⋆.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        },
+        {
+          "id": 2,
+          "image": "/src/assets/images/dummy-images/24 Crazy Funny Pics to Smile Up Your Day _ Team Jimmy Joe.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "adam",
+          "creatorFullName": "Adam Smith",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        },
+        {
+          "id": 3,
+          "image": "/src/assets/images/dummy-images/app icon.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "description": "board 4",
+      "name": "board 4",
+      "pins": [
+        {
+          "id": 1,
+          "image": "/src/assets/images/dummy-images/⋆.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        },
+        {
+          "id": 2,
+          "image": "/src/assets/images/dummy-images/24 Crazy Funny Pics to Smile Up Your Day _ Team Jimmy Joe.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "adam",
+          "creatorFullName": "Adam Smith",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        },
+        {
+          "id": 3,
+          "image": "/src/assets/images/dummy-images/app icon.jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        },
+        {
+          "id": 4,
+          "image": "/src/assets/images/dummy-images/download (1).jpg",
+          "title": "I Love All Cats.",
+          "description": "I am a cat lover who love all cats in this world.",
+          "creatorUsername": "john",
+          "creatorFullName": "John Doe",
+          "url": "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg"
+        }
+      ]
+    }
+  ]
+}
