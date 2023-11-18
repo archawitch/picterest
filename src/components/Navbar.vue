@@ -34,6 +34,7 @@ const resetModal = () => {
 };
 
 const searchInput = () => {
+  resetModal();
   router.push({
     name: "home",
     query: { q: searchText.value },
@@ -53,7 +54,10 @@ const searchInput = () => {
         <button
           @click="resetModal"
           class="rounded-full px-5 py-3 font-semibold transition duration-150 hover:bg-dark hover:text-white"
-          :class="{ active: navbarStore.isHomePage }"
+          :class="{
+            'bg-dark': navbarStore.isHomePage,
+            'text-white': navbarStore.isHomePage,
+          }"
           :disabled="navbarStore.isHomePage"
         >
           Home
@@ -72,10 +76,7 @@ const searchInput = () => {
     </div>
 
     <form
-      @submit.stop.prevent="
-        resetModal();
-        searchInput();
-      "
+      @submit.stop.prevent="searchInput()"
       :class="{
         'bg-secondary': inputBarDarken,
         'bg-tertiary': !inputBarDarken,
@@ -108,11 +109,13 @@ const searchInput = () => {
     <router-link class="flex" :to="{ name: 'profile' }">
       <button
         @click="resetModal()"
-        class="h-[50px] w-[50px] bg-cover"
-        :style="{
-          backgroundImage: 'url(' + userStore.userData.profileImage + ')',
-        }"
-      ></button>
+        class="h-[50px] w-[50px] rounded-full bg-cover"
+      >
+        <img
+          class="h-full w-full rounded-full object-cover"
+          :src="userStore.userData.profileImage"
+        />
+      </button>
     </router-link>
     <button @click="toggleSettingModal()" class="ml-4">
       <span
@@ -162,10 +165,3 @@ const searchInput = () => {
     </ul>
   </div>
 </template>
-
-<style scoped>
-.active {
-  background-color: var(--bg-black);
-  color: white;
-}
-</style>

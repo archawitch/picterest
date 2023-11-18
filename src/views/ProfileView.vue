@@ -53,7 +53,10 @@ const switchMode = () => {
 
 <template>
   <div class="mt-4 flex flex-col items-center">
-    <img class="w-[110px]" :src="userStore.userData.profileImage" />
+    <img
+      class="h-[120px] w-[120px] rounded-full object-cover"
+      :src="userStore.userData.profileImage"
+    />
     <div class="mt-4">
       <h1 class="text-2xl font-bold">{{ fullName }}</h1>
     </div>

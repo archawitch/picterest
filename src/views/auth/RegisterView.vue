@@ -34,7 +34,7 @@ const fetchAPI = async () => {
     fname: "Adam",
     lname: "Smith",
     email: "example@mail.com",
-    profileImage: "/src/assets/images/user/default-profile-image.png",
+    profileImage: "/src/assets/images/dummy-images/Google.jpg",
     bio: "I am a cat lover.",
     ok: true,
     status: 200,

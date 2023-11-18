@@ -172,7 +172,7 @@ const uploadPin = () => {
             <hr class="mb-8" />
             <div class="flex items-center">
               <img
-                class="h[40px] mr-4 w-[40px]"
+                class="mr-4 h-[50px] w-[50px] rounded-full object-cover"
                 :src="userStore.userData.profileImage"
                 alt=""
               />
