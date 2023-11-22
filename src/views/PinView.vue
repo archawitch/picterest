@@ -37,25 +37,14 @@ const tags = reactive([
     id: 3,
     name: "i-am-cat",
   },
-  {
-    id: 1,
-    name: "cat",
-  },
-  {
-    id: 2,
-    name: "cat-lover",
-  },
-  {
-    id: 3,
-    name: "i-am-cat",
-  },
 ]);
 
 const comments = reactive([
   {
     name: "John Doe",
     profileImage: "/src/assets/images/dummy-images/Google.jpg",
-    comment: "So lovely!",
+    comment:
+      "So lovely! hi hi So lovely! So lovely! So lovely! So lovely! So lovely! So lovely! So lovely!",
   },
   {
     name: "Adam Smith",
@@ -176,15 +165,16 @@ const followUser = () => {
             v-for="comment in comments"
             class="mt-3 flex flex-nowrap items-center text-sm"
           >
-            <img
-              class="mr-4 h-[40px] w-[40px] rounded-full object-cover"
-              :src="comment.profileImage"
-              alt=""
-            />
-            <div class="flex items-center">
-              <span class="max-w-[100px] font-medium">{{ comment.name }}</span>
-              &nbsp;-&nbsp;
-              <span class="max-w-[300px]">{{ comment.comment }}</span>
+            <div class="mr-4 flex min-w-[40px]">
+              <img
+                class="h-[40px] w-[40px] rounded-full object-cover"
+                :src="comment.profileImage"
+                alt=""
+              />
+            </div>
+            <div class="">
+              <div class="inline font-medium">{{ comment.name }}</div>
+              &nbsp;-&nbsp;{{ comment.comment }}
             </div>
           </div>
         </div>

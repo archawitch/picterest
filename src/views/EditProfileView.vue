@@ -120,14 +120,14 @@ const saveProfile = () => {
         <CustomInput
           class="mr-2 w-full"
           v-model="userData.fname"
-          label-name="Name"
+          label-name="First name"
           input-type="text"
           :required="true"
         ></CustomInput>
         <CustomInput
           class="ml-2 w-full"
           v-model="userData.lname"
-          label-name="Name"
+          label-name="Last name"
           input-type="text"
           :required="true"
         ></CustomInput>
