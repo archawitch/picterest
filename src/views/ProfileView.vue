@@ -5,6 +5,8 @@ import { useUserStore } from "../stores/user";
 import Grid from "../components/Grid.vue";
 import pinData from "../assets/json/dummy-images.json";
 import boardData from "../assets/json/dummy-boards.json";
+import { onBeforeMount } from "vue";
+import { onMounted } from "vue";
 
 const followingData = reactive([
   {
@@ -29,6 +31,49 @@ const pins = computed(() => {
     (item) => item.creatorUsername === userStore.userData.username,
   );
 });
+
+onBeforeMount(() => {
+  const boards = [...boardData.boards].push(savedPins[0]);
+});
+
+const savedPins = reactive([
+  {
+    id: 1,
+    description: "all pins",
+    name: "All pins",
+    pins: [
+      {
+        id: 11,
+        image: "/src/assets/images/dummy-images/Google.jpg",
+        title: "I Love All Cats.",
+        description: "I am a cat lover who love all cats in this world.",
+        creatorUsername: "adam",
+        creatorFullName: "Adam Smith",
+      },
+      {
+        id: 12,
+        image:
+          "/src/assets/images/dummy-images/Have a Good Weekend_ _ Cup of Jo.jpg",
+        title: "I Love All Cats.",
+        description: "I am a cat lover who love all cats in this world.",
+        creatorUsername: "john",
+        creatorFullName: "John Doe",
+        url: "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg",
+      },
+      {
+        id: 13,
+        image:
+          "/src/assets/images/dummy-images/Photos Of Black Cats Next to White Cats Creating Together a Purr-fect Composition.jpg",
+        title: "I Love All Cats.",
+        description: "I am a cat lover who love all cats in this world.",
+        creatorUsername: "adam",
+        creatorFullName: "Adam Smith",
+      },
+    ],
+  },
+]);
+
+const boards = [...savedPins, ...boardData.boards];
 
 const fullName = computed(() => {
   return `${userStore.userData.fname} ${userStore.userData.lname}`;
@@ -93,6 +138,6 @@ const switchMode = () => {
     <Grid :pin-items="pins"></Grid>
   </div>
   <div v-if="currentPage.isSaved" class="mt-6">
-    <Grid :board-items="boardData.boards"></Grid>
+    <Grid :board-items="boards"></Grid>
   </div>
 </template>

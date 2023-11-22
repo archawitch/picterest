@@ -35,3 +35,4 @@ Picterest is a web application that allows users to discover, create, and save i
 
 - [BASIC RESTful Web API PHP/MySQL](https://monkeywebstudio.com/basic-restful-web-api-phpmysql/)
 - [How to Create RESTful API in PHP | RESTful API With PHP & MySQL](https://youtu.be/dlGtSoigdB0?si=M1L6g4Px-r5Xt5pd)
+- [สอน PHP & MySQL เรียนรู้การสร้าง RESTful API แบบ PDO + OOP](https://youtu.be/XKC5TPy11G8?si=QQ_sO9m5yGCb0dxq)

@@ -60,7 +60,7 @@ const loginClick = async () => {
   userStore.addUser(userData.value);
 
   // authenticated
-  authentication.authenticate();
+  authentication.authenticate(userData.value);
   router.push({
     name: "home",
   });

@@ -43,7 +43,8 @@ const comments = reactive([
   {
     name: "John Doe",
     profileImage: "/src/assets/images/dummy-images/Google.jpg",
-    comment: "So lovely!",
+    comment:
+      "So lovely! hi hi So lovely! So lovely! So lovely! So lovely! So lovely! So lovely! So lovely!",
   },
   {
     name: "Adam Smith",
@@ -130,9 +131,9 @@ const followUser = () => {
         <div class="mt-3">
           <p>{{ pinStore.pinData.description }}</p>
         </div>
-        <div class="mt-4 flex">
+        <div class="mt-2 flex flex-wrap">
           <div v-for="tag in tags">
-            <button class="mr-3 rounded-full bg-secondary px-4">
+            <button class="mr-3 mt-2 rounded-full bg-secondary px-4">
               #{{ tag.name }}
             </button>
           </div>
@@ -162,16 +163,19 @@ const followUser = () => {
           <h5 class="text-lg">Comments</h5>
           <div
             v-for="comment in comments"
-            class="mt-3 flex items-center text-sm"
+            class="mt-3 flex flex-nowrap items-center text-sm"
           >
-            <img
-              class="mr-4 h-[40px] w-[40px] rounded-full object-cover"
-              :src="comment.profileImage"
-              alt=""
-            />
-            <span class="font-medium">{{ comment.name }}</span>
-            &nbsp;-&nbsp;
-            <span>{{ comment.comment }}</span>
+            <div class="mr-4 flex min-w-[40px]">
+              <img
+                class="h-[40px] w-[40px] rounded-full object-cover"
+                :src="comment.profileImage"
+                alt=""
+              />
+            </div>
+            <div class="">
+              <div class="inline font-medium">{{ comment.name }}</div>
+              &nbsp;-&nbsp;{{ comment.comment }}
+            </div>
           </div>
         </div>
         <hr />
@@ -195,7 +199,7 @@ const followUser = () => {
               @blur="commentBarDarken = false"
               type="text"
               placeholder="Add a comment"
-              class="w-full bg-transparent text-black-3 outline-none"
+              class="w-full bg-transparent pr-4 text-black-3 outline-none"
               v-model="commentText"
             />
             <button class="text-sm font-semibold text-gray-500">Add</button>
