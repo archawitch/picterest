@@ -99,7 +99,7 @@ CREATE TABLE `pin` (
   `pin_description` varchar(500) DEFAULT NULL,
   `date_pinned` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `pin_title` varchar(50) DEFAULT NULL,
-  `pin_image` longblob NOT NULL,
+  `pin_image_path` varchar(255) NOT NULL,
   `username` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -133,11 +133,11 @@ CREATE TABLE `tag` (
 
 CREATE TABLE `user` (
   `username` varchar(20) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
-  `profile_image` longblob,
+  `profile_image_path` varchar(255) DEFAULT NULL,
   `date_joined` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `bio` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

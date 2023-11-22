@@ -4,11 +4,11 @@
 1. user
 
 --- DONE --- 
-a.	-- checked -- Read one user by username checked
-b.	-- checked -- Read all users (for admin)
-c.	-- checked -- Check and insert one user (registration)
-d.	-- checked -- Update one user (edit profile)
-e.	-- checked -- Delete one user (for admin)
+a.	-- checked -- Read one user by username
+b.	-- checked -- Read all users
+c.	-- checked -- Check and insert one user
+d.	-- checked -- Update one user
+e.	-- checked -- Delete one user
 
 
 #####################################################
@@ -18,8 +18,8 @@ e.	-- checked -- Delete one user (for admin)
 
 a.	Read one pin by ID
 c.	Read user’s created pins
-d.   Read user's saved pins
-e.	Insert one pin (don’t forget to insert tags if any of them haven't existed yet)
+d.  Read user's saved pins
+e.	Insert one pin (don’t forget to insert tags if any of them do not exist yet)
 
 
 #####################################################

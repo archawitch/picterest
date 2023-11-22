@@ -7,33 +7,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $data->username;
     $password = $data->password;
 
-    $insertUserDataQuery = "INSERT INTO user (username, password) VALUES ('$username', '$password')";
-    $insertUserDataResult = $conn->query($insertUserDataQuery);
+    // Hash the password (replace this with your actual password hashing logic)
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    if ($insertUserDataResult) {
-      // Authentication successful
-        $selectUserDataQuery = "SELECT * FROM user WHERE username = '$username' AND password = '$password'" ;
-        $selectUserDataResult = $conn->query($selectUserDataQuery);
+    $insertUserDataQuery = "INSERT INTO user (username, password) VALUES (?, ?)";
 
-        $user = $selectUserDataResult->fetch_assoc();
-        
-        // Return user data
-        echo json_encode(array(
-            "success" => true,
-            "message" => "Registration successful",
-            "user" => array(
-                "username" => $user['username'],
-                "password" => $user['password'],
-                "email" => $user['email'],
-                "first_name" => $user['first_name'],
-                "last_name" => $user['last_name'],
-                "profile_image" => $user['profile_image'],
-                "bio" => $user['bio'],
-            )
-        ));
+    $stmt = $conn->prepare($insertUserDataQuery);
+
+    if($stmt){
+        // Bind username
+        $stmt->bind_param("ss", $username, $hashed_password);
+
+        // Execute the statement
+        $stmt->execute();
+        if($stmt->affected_rows > 0){
+            // Response back
+            http_response_code(200);
+            echo json_encode(array(
+                "success" => true,
+                "message" => "Logged in successfully",
+                "username" => $username,
+                "email" => null,
+                "first_name" => null,
+                "last_name" => null,
+                "bio" => null,
+                "profile_image" => null
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array("success" => false ,"message" => "User found or inserted failed", ));
+        } 
     } else {
-        http_response_code(400);
-        echo json_encode(array("success" => false ,"message" => "Registration failed"));
+        http_response_code(500);
+        echo json_encode(array("error" => "Error in prepared statement: " . $conn->error));
     }
 }
+// Close the database connection
+$conn->close();
 ?>

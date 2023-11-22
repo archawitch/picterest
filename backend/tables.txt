@@ -7,7 +7,7 @@
      email
      first_name
      last_name
-     profile_image
+     profile_image_path
      bio
      date_joined
 
@@ -20,7 +20,7 @@
      pin_description
      date_pinned
      pin_title
-     pin_image
+     pin_image_path
 (FK) username
 
 #####################################################
@@ -74,7 +74,7 @@
 
 #####################################################
 
-8. has
+9. has
 
 (PK, FK) pinID
 (PK, FK) tagID
