@@ -1,0 +1,20 @@
+### Postman ###
+
+1. Click 'new'
+2. Paste your endpoint as 'localhost/Picterest/backend/api/[tested file]'
+3. Select Body > pick raw > change data type to json > insert your tested data
+4. Click 'send'
+
+--- Example
+
+endpoint: 'localhost/Picterest/backend/api/users.php'
+method: DELETE
+tested data: 
+{
+    "username": "johndoe"
+}
+output:
+{
+    "success": true,
+    "message": "Deleted successfully"
+}

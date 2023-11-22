@@ -1,0 +1,81 @@
+###################### Tables ######################
+
+1. user
+
+(PK) username
+     password
+     email
+     first_name
+     last_name
+     profile_image
+     bio
+     date_joined
+
+#####################################################
+
+2. pin
+
+(PK) pinID
+     pin_url
+     pin_description
+     date_pinned
+     pin_title
+     pin_image
+(FK) username
+
+#####################################################
+
+3. board
+
+(PK) boardID
+     board_name
+     board_description
+     date_boardCreated
+(FK) username
+
+#####################################################
+
+4. comment
+
+(PK) commentID
+(FK) username
+(FK) pinID
+     text
+     date_commented
+
+#####################################################
+
+5. tag
+
+(PK) tagID
+     tag_Name
+
+#####################################################
+
+6. save
+
+(PK, FK) username
+(PK, FK) pinID
+
+#####################################################
+
+7. follow
+
+(FK, PK) usernameFollowing
+(FK, PK) usernameFollowed
+         date_Followed
+
+#####################################################
+
+8. is_in
+
+(PK, FK) pinID
+(PK, FK) boardID
+
+#####################################################
+
+8. has
+
+(PK, FK) pinID
+(PK, FK) tagID
+

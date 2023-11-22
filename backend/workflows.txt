@@ -1,0 +1,8 @@
+### Work flows ###
+
+1.  Choose tasks you want to do -- here -> https://docs.google.com/document/d/1mLhzD2m0AzvL2pNeq3wb8_fGSI7Sjy8yzP080BG3l7c/edit?usp=sharing
+2.	Before starting, for example -> user tasks, create a new branch 'user-api-palm'.
+3.	After finishing, add, commit, and push your local "branch" to origin.
+
+hint
+- git add, git commit, git push, git pull, git status, git fetch
