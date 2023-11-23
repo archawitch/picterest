@@ -1,11 +1,10 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { reactive } from "vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "../stores/user";
 import CustomInput from "../components/CustomInput.vue";
 import CustomTextarea from "../components/CustomTextarea.vue";
 import { onBeforeMount } from "vue";
-import { watch } from "vue";
 
 const users = reactive([
   {
@@ -57,7 +56,6 @@ const userStore = useUserStore();
 const userData = reactive({ profileImage: null });
 
 onBeforeMount(async () => {
-  // Use Vue.set to update reactive properties
   Object.assign(userData, await findUser(route.params.username));
 });
 

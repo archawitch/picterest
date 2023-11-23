@@ -5,8 +5,6 @@ import { useUserStore } from "../stores/user";
 import Grid from "../components/Grid.vue";
 import pinData from "../assets/json/dummy-images.json";
 import boardData from "../assets/json/dummy-boards.json";
-import { onBeforeMount } from "vue";
-import { onMounted } from "vue";
 
 const followingData = reactive([
   {
@@ -30,10 +28,6 @@ const pins = computed(() => {
   return pinData.items.filter(
     (item) => item.creatorUsername === userStore.userData.username,
   );
-});
-
-onBeforeMount(() => {
-  const boards = [...boardData.boards].push(savedPins[0]);
 });
 
 const savedPins = reactive([
@@ -76,7 +70,9 @@ const savedPins = reactive([
 const boards = [...savedPins, ...boardData.boards];
 
 const fullName = computed(() => {
-  return `${userStore.userData.fname} ${userStore.userData.lname}`;
+  return `${userStore.userData.firstName ?? ""} ${
+    userStore.userData.lastName ?? ""
+  }`;
 });
 
 const followText = computed(() => {

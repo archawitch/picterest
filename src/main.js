@@ -6,6 +6,11 @@ import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import App from "./App.vue";
 import router from "./router";
+import axios from "axios";
+
+if (import.meta.env.DEV) {
+  axios.defaults.baseURL = "http://localhost/picterest/backend/";
+}
 
 // Masonry Layouts
 import MasonryWall from "@yeger/vue-masonry-wall";

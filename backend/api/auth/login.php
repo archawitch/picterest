@@ -1,12 +1,17 @@
 <?php
 include_once '../config.php';
 
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+header('Access-Control-Allow-Headers: Content-Type');
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"));
     $username = $data->username;
     $password = $data->password;
 
-    $selectUserDataQuery = "SELECT username, password, email, first_name, last_name, bio, 
+    $selectUserDataQuery = "SELECT username, password, user_type, email, first_name, last_name, bio, 
                                         profile_image_path FROM user 
                                         WHERE username = ?";
 
@@ -20,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
 
         // Bind the result variables
-        $stmt->bind_result($username, $hashed_password, $email, $first_name, $last_name, $bio, $profile_image_path);
+        $stmt->bind_result($username, $hashed_password, $user_type, $email, $first_name, $last_name, $bio, $profile_image_path);
 
         // User found
         if($stmt->fetch()){
@@ -31,20 +36,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo json_encode(array(
                     "success" => true,
                     "message" => "Logged in successfully",
-                    "username" => $username,
-                    "email" => $email,
-                    "first_name" => $first_name,
-                    "last_name" => $last_name,
-                    "bio" => $bio,
-                    "profile_image" => $profile_image_path
+                    "userData" => array(
+                        "username" => $username,
+                        "userType" => $user_type,
+                        "email" => $email,
+                        "firstName" => $first_name,
+                        "lastName" => $last_name,
+                        "bio" => $bio,
+                        "profileImage" => $profile_image_path
+                    )
                 ));
             } else {
-                http_response_code(401);
                 echo json_encode(array("success" => false ,"message" => "Logging in failed"));
             }
 
         } else {
-            http_response_code(401);
             echo json_encode(array("success" => false ,"message" => "User not found"));
         }
     } else {

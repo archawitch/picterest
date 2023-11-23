@@ -4,63 +4,53 @@ import { useRouter } from "vue-router";
 import { useAuthenticationStore } from "@/stores/authentication";
 import { useUserStore } from "@/stores/user";
 import CustomInput from "@/components/CustomInput.vue";
+import axios from "axios";
 
 const router = useRouter();
 const authentication = useAuthenticationStore();
 const userStore = useUserStore();
 
 const isLoading = ref(false);
+const message = reactive({});
 const formData = reactive({
   username: "",
   password: "",
 });
-const userData = ref({});
 
-const fetchAPI = async () => {
-  return {
-    username: "adam",
-    password: "adam",
-    fname: "Adam",
-    lname: "Smith",
-    email: "example@mail.com",
-    profileImage: "/src/assets/images/dummy-images/Google.jpg",
-    bio: "I am a cat lover.",
-    ok: true,
-    status: 200,
-    userType: "admin",
-  };
-};
-
-const sendAPIRequest = async () => {
-  try {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // fetching api
-    const response = await fetchAPI();
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    return response;
-  } catch {
-    throw new Error(`Error fetching data: ${error.message}`);
-  }
+const sendLoginRequest = async () => {
+  // simulate loading screen
+  await new Promise((resolve) =>
+    setTimeout(() => {
+      resolve();
+    }, 1000),
+  );
+  // fetch user data
+  return await axios.post("/api/auth/login.php", {
+    username: formData.username,
+    password: formData.password,
+  });
 };
 
 const loginClick = async () => {
-  // perform sign up logic
   // turn on loading
   isLoading.value = true;
 
   // start fetching api
-  userData.value = await sendAPIRequest();
+  const { data } = await sendLoginRequest();
 
   // store user data
-  userStore.addUser(userData.value);
+  userStore.addUser(data.userData);
 
-  // authenticated
-  authentication.authenticate(userData.value);
+  // user not found
+  if (!data.success) {
+    isLoading.value = false;
+    message.error = "* Username or password is not correct.";
+    return;
+  }
+
+  // authenticate user
+  authentication.authenticate();
+
   router.push({
     name: "home",
   });
@@ -96,14 +86,18 @@ const loginClick = async () => {
           />
           <CustomInput
             style="min-width: 280px"
+            class="mb-3"
             v-model="formData.password"
             label-name="Password"
             input-type="password"
             :required="true"
           />
+          <div class="text-red-500" v-if="message.error">
+            {{ message.error }}
+          </div>
           <button
             type="submit"
-            class="duration-00 mb-8 mt-6 h-[48px] w-full rounded-full bg-dark p-3 text-white transition hover:cursor-pointer hover:bg-darken active:bg-black disabled:bg-dark"
+            class="duration-00 mb-8 mt-3 h-[48px] w-full rounded-full bg-dark p-3 text-white transition hover:cursor-pointer hover:bg-darken active:bg-black disabled:bg-dark"
             :disabled="isLoading"
           >
             <div class="loading" v-if="isLoading">

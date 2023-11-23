@@ -1,69 +1,44 @@
 <script setup>
-import { reactive, ref, watchEffect, onMounted } from "vue";
+import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthenticationStore } from "@/stores/authentication";
 import { useUserStore } from "@/stores/user";
 import CustomInput from "@/components/CustomInput.vue";
+import axios from "axios";
 
 const router = useRouter();
 const authentication = useAuthenticationStore();
 const userStore = useUserStore();
 
-const isValid = ref(true);
 const isLoading = ref(false);
-const message = ref({});
+const message = reactive({ error: "", success: "" });
 const formData = reactive({
   username: "",
   password: "",
   confirmPassword: "",
 });
-const userData = ref({});
 
-watchEffect(() => {
-  isValid.value = true;
+const sendRegisterRequest = async () => {
+  // simulate loading screen
+  await new Promise((resolve) =>
+    setTimeout(() => {
+      resolve();
+    }, 1000),
+  );
 
-  if (formData.password !== formData.confirmPassword) {
-    isValid.value = false;
-  }
-});
-
-const fetchAPI = async () => {
-  return {
-    username: "adam",
-    password: "adam",
-    fname: "Adam",
-    lname: "Smith",
-    email: "example@mail.com",
-    profileImage: "/src/assets/images/dummy-images/Google.jpg",
-    bio: "I am a cat lover.",
-    ok: true,
-    status: 200,
-    userType: "admin",
-  };
-};
-
-const sendAPIRequest = async () => {
-  try {
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    const response = await fetchAPI();
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    return response;
-  } catch (error) {
-    throw new Error(`Error fetching data: ${error.message}`);
-  }
+  // send user data || registration
+  return await axios.post("/api/auth/register.php", {
+    username: formData.username,
+    password: formData.password,
+    userType: "user",
+  });
 };
 
 const signupClick = async () => {
-  // perform sign up logic
   // check if passwords are the same
-  message.value.error = "";
+  message.error = "";
   if (formData.password !== formData.confirmPassword) {
-    message.value.error = "* Passwords do not match.";
+    message.error = "* Passwords do not match.";
     return;
   }
 
@@ -71,16 +46,25 @@ const signupClick = async () => {
   isLoading.value = true;
 
   // start fetching api
-  userData.value = await sendAPIRequest();
+  const { data } = await sendRegisterRequest();
 
   // store user data
-  userStore.addUser(userData.value);
+  userStore.addUser(data.userData);
+
+  // repeated user
+  if (!data.success) {
+    isLoading.value = false;
+    message.error = "* Duplicate username";
+    return;
+  }
 
   // authenticated
   authentication.authenticate();
 
   // response to the user
-  message.value.success = "Welcome to Picterest";
+  message.success = "Welcome to Picterest";
+
+  // let message displaying
   await new Promise((resolve) => {
     setTimeout(() => {
       resolve();
@@ -127,7 +111,7 @@ const signupClick = async () => {
             :required="true"
           />
           <div class="text-red-500" v-if="message.error">
-            {{ error.password }}
+            {{ message.error }}
           </div>
           <div class="flex items-center justify-center" v-if="message.success">
             {{ message.success }}&nbsp;<font-awesome-icon

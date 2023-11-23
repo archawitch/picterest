@@ -2,44 +2,57 @@
 
 include_once '../config.php';
 
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+header('Access-Control-Allow-Headers: Content-Type');
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents("php://input"));
-    $username = $data->username;
-    $password = $data->password;
+    try{
+        $data = json_decode(file_get_contents("php://input"));
+        $username = $data->username;
+        $password = $data->password;
+        $user_type = $data->user_type;
+        $profile_image = "/src/assets/images/user/default-profile-image.png";
 
-    // Hash the password (replace this with your actual password hashing logic)
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        // Hash the password (replace this with your actual password hashing logic)
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $insertUserDataQuery = "INSERT INTO user (username, password) VALUES (?, ?)";
+        $insertUserDataQuery = "INSERT INTO user (username, password, user_type, profile_image_path) VALUES (?, ?, ?, ?)";
 
-    $stmt = $conn->prepare($insertUserDataQuery);
+        $stmt = $conn->prepare($insertUserDataQuery);
 
-    if($stmt){
-        // Bind username
-        $stmt->bind_param("ss", $username, $hashed_password);
+        if($stmt){
+            // Bind username
+            $stmt->bind_param("ssss", $username, $hashed_password, $user_type, $profile_image);
 
-        // Execute the statement
-        $stmt->execute();
-        if($stmt->affected_rows > 0){
-            // Response back
-            http_response_code(200);
-            echo json_encode(array(
-                "success" => true,
-                "message" => "Logged in successfully",
-                "username" => $username,
-                "email" => null,
-                "first_name" => null,
-                "last_name" => null,
-                "bio" => null,
-                "profile_image" => null
-            ));
+            // Execute the statement
+            $stmt->execute();
+            if($stmt->affected_rows > 0){
+                // Response back
+                http_response_code(200);
+                echo json_encode(array(
+                    "success" => true,
+                    "message" => "Registered successfully",
+                    "userData" => array(
+                        "username" => $username,
+                        "userType" => $user_type,
+                        "email" => null,
+                        "first_name" => null,
+                        "last_name" => null,
+                        "bio" => null,
+                        "profile_image" => $profile_image
+                    )
+                ));
+            } else {
+                echo json_encode(array("success" => false ,"message" => "User found or inserted failed"));
+            } 
         } else {
             http_response_code(500);
-            echo json_encode(array("success" => false ,"message" => "User found or inserted failed", ));
+            echo json_encode(array("error" => "Error in prepared statement: " . $conn->error));
         } 
-    } else {
-        http_response_code(500);
-        echo json_encode(array("error" => "Error in prepared statement: " . $conn->error));
+    } catch (Exception $e) {
+        echo json_encode($conn->connect_error);
     }
 }
 // Close the database connection
