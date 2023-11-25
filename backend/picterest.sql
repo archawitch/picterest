@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 25, 2023 at 08:21 AM
+-- Generation Time: Nov 25, 2023 at 11:55 AM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -163,11 +163,11 @@ CREATE TABLE `is_in` (
 
 CREATE TABLE `pin` (
   `pinID` int(11) NOT NULL,
-  `pin_url` varchar(500) DEFAULT NULL,
-  `pin_description` varchar(500) DEFAULT NULL,
-  `date_pinned` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `pin_title` varchar(50) DEFAULT NULL,
+  `pin_description` varchar(500) DEFAULT NULL,
+  `pin_url` varchar(500) DEFAULT NULL,
   `pin_image_path` varchar(255) NOT NULL,
+  `date_pinned` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `username` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -175,12 +175,12 @@ CREATE TABLE `pin` (
 -- Dumping data for table `pin`
 --
 
-INSERT INTO `pin` (`pinID`, `pin_url`, `pin_description`, `date_pinned`, `pin_title`, `pin_image_path`, `username`) VALUES
-(3, '', 'Hello World!', '2023-11-23 23:47:33', 'My first pin', '/backend/images/pin_images/download.jpg', 'adam'),
-(4, '', 'Hello Venus!', '2023-11-23 23:49:28', 'My second pin', '/backend/images/pin_images/24 Crazy Funny Pics to Smile Up Your Day _ Team Jimmy Joe.jpg', 'johndoe'),
-(5, '', 'Hello Neptune!', '2023-11-24 00:47:31', 'My third pin', '/backend/images/pin_images/download (1).jpg', 'johndoe'),
-(6, 'https://en.wikipedia.org/wiki/Mars', 'Hello Mars!', '2023-11-24 11:37:05', 'My forth pin', '/backend/images/pin_images/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png', 'adam'),
-(7, 'https://en.wikipedia.org/wiki/Pluto', 'Hello Pluto!', '2023-11-25 14:36:45', 'Pluto', '/backend/images/pin_images/pluto.jpg', 'johndoe');
+INSERT INTO `pin` (`pinID`, `pin_title`, `pin_description`, `pin_url`, `pin_image_path`, `date_pinned`, `username`) VALUES
+(3, 'My first pin', 'Hello World!', '', '/backend/images/pin_images/download.jpg', '2023-11-23 23:47:33', 'adam'),
+(4, 'My second pin', 'Hello Venus!', '', '/backend/images/pin_images/24 Crazy Funny Pics to Smile Up Your Day _ Team Jimmy Joe.jpg', '2023-11-23 23:49:28', 'johndoe'),
+(5, 'My third pin', 'Hello Neptune!', '', '/backend/images/pin_images/download (1).jpg', '2023-11-24 00:47:31', 'johndoe'),
+(6, 'My forth pin', 'Hello Mars!', 'https://en.wikipedia.org/wiki/Mars', '/backend/images/pin_images/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png', '2023-11-24 11:37:05', 'adam'),
+(7, 'Pluto', 'Hello Pluto!', 'https://en.wikipedia.org/wiki/Pluto', '/backend/images/pin_images/pluto.jpg', '2023-11-25 14:36:45', 'johndoe');
 
 -- --------------------------------------------------------
 
@@ -209,12 +209,12 @@ CREATE TABLE `tag` (
 --
 
 INSERT INTO `tag` (`tagID`, `tag_name`) VALUES
-(2, 'Hello'),
-(3, 'World'),
-(4, 'Venus'),
+(2, 'hello'),
 (5, 'mars'),
+(7, 'milky_way'),
 (6, 'pluto'),
-(7, 'milky_way');
+(4, 'venus'),
+(3, 'world');
 
 -- --------------------------------------------------------
 
@@ -303,7 +303,8 @@ ALTER TABLE `save`
 -- Indexes for table `tag`
 --
 ALTER TABLE `tag`
-  ADD PRIMARY KEY (`tagID`);
+  ADD PRIMARY KEY (`tagID`),
+  ADD UNIQUE KEY `tag_name` (`tag_name`);
 
 --
 -- Indexes for table `user`

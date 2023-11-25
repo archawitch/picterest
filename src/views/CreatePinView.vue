@@ -29,6 +29,7 @@ const inputTags = ref("");
 data.tags = computed(() => {
   let tags = inputTags.value
     .replace(/ /g, "")
+    .toLowerCase()
     .split(",")
     .filter((tag) => tag.trim().length !== 0);
 
