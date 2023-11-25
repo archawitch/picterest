@@ -51,6 +51,8 @@ const signupClick = async () => {
   // store user data
   userStore.addUser(data.userData);
 
+  console.log(userStore.userData.profileImage);
+
   // repeated user
   if (!data.success) {
     isLoading.value = false;
@@ -84,7 +86,7 @@ const signupClick = async () => {
       style="background-image: url(/src/assets/images/auth-background.png)"
     >
       <div
-        class="m-4 flex flex-col items-center rounded-2xl bg-white px-16 py-12"
+        class="m-4 flex flex-col items-center rounded-2xl bg-white px-14 py-12"
       >
         <div><h2 class="mb-3 mt-2.5 text-3xl font-bold">Sign up</h2></div>
         <form class="w-full" @submit.stop.prevent="signupClick">

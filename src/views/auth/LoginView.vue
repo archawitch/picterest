@@ -64,7 +64,7 @@ const loginClick = async () => {
       style="background-image: url(/src/assets/images/auth-background.png)"
     >
       <div
-        class="m-4 flex flex-col items-center rounded-2xl bg-white px-16 py-12"
+        class="m-4 flex flex-col items-center rounded-2xl bg-white px-14 py-12"
       >
         <div>
           <img

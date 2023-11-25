@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = json_decode(file_get_contents("php://input"));
         $username = $data->username;
         $password = $data->password;
-        $user_type = $data->user_type;
+        $user_type = "user";
         $profile_image = "/src/assets/images/user/default-profile-image.png";
 
         // Hash the password (replace this with your actual password hashing logic)
@@ -38,10 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         "username" => $username,
                         "userType" => $user_type,
                         "email" => null,
-                        "first_name" => null,
-                        "last_name" => null,
+                        "firstName" => null,
+                        "lastName" => null,
                         "bio" => null,
-                        "profile_image" => $profile_image
+                        "profileImage" => $profile_image
                     )
                 ));
             } else {

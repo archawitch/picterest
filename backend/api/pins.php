@@ -7,57 +7,6 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 
-function insertPin($username, $pin_title, $pin_description, $pin_url, $pin_tags, $pin_image_path){
-    global $conn;
-
-    $insertPinDataQuery = "CALL InsertPin (?, ?, ?, ?, ?, @pin_id)";
-
-    // Step 1: Insert into pin table
-    $stmtInsertPin = $conn->prepare($insertPinDataQuery);
-    $stmtInsertPin->bind_param("sssss", $pin_title, $pin_description, $pin_url, $pin_image_path, $username);
-
-    if ($stmtInsertPin->execute()) {
-        // retrieve pinID
-        $query = $conn->query('SELECT @pin_id');
-        $result = $query->fetch_assoc();
-        $pin_id = $result['@pin_id'];
-
-        // Step 2: Retrieve pin_id and insert tags
-        foreach ($pin_tags as $tag_name) {
-            // Step 3: Insert into tag table if not duplicated
-            $insertTagQuery = "CALL InsertTagAndSave (?, ?)";
-            $stmtInsertTag = $conn->prepare($insertTagQuery);
-            $stmtInsertTag->bind_param("is", $pin_id, $tag_name);
-
-            if(!$stmtInsertTag->execute()){
-                // Response back
-                http_response_code(500);
-                echo json_encode(array(
-                    "success" => false,
-                    "message" => "Inserted failed at tag: " . $tag_name . " Error: " . $stmtInsertTag->error
-                ));
-                exit();
-            }
-        }
-
-        // Response back
-        http_response_code(200);
-        echo json_encode(array(
-            "success" => true,
-            "message" => "Inserted successfully"
-        ));
-        exit();
-
-    } else {
-        http_response_code(500);
-        echo json_encode(array(
-            "success" => false,
-            "message" => "Inserted pin failed: " . $stmtInsertPin->error
-        ));
-        exit();
-    }
-}
-
 // Read all users
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
@@ -211,8 +160,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($move_success) {
                 $pin_image_path = $uploadImageForSave;
 
-                /* -- INSERT PIN  -- */
-                insertPin($username, $pin_title, $pin_description, $pin_url, $pin_tags, $pin_image_path);  
+                /* -- INSERT PIN  -- */ 
+
+                $insertPinDataQuery = "CALL InsertPin (?, ?, ?, ?, ?, @pin_id)";
+
+                // Insert into pin table
+                $stmtInsertPin = $conn->prepare($insertPinDataQuery);
+                $stmtInsertPin->bind_param("sssss", $pin_title, $pin_description, $pin_url, $pin_image_path, $username);
+
+                if ($stmtInsertPin->execute()) {
+                    // Retrieve pinID
+                    $query = $conn->query('SELECT @pin_id');
+                    $result = $query->fetch_assoc();
+                    $pin_id = $result['@pin_id'];
+
+                    // Insert tags
+                    foreach ($pin_tags as $tag_name) {
+                        // Insert into tag table if not duplicated
+                        $insertTagQuery = "CALL InsertTagAndSave (?, ?)";
+                        $stmtInsertTag = $conn->prepare($insertTagQuery);
+                        $stmtInsertTag->bind_param("is", $pin_id, $tag_name);
+
+                        if(!$stmtInsertTag->execute()){
+                            // Failed
+                            http_response_code(500);
+                            echo json_encode(array(
+                                "success" => false,
+                                "message" => "Inserted failed at tag: " . $tag_name . " Error: " . $stmtInsertTag->error
+                            ));
+                            exit();
+                        }
+                    }
+
+                    // Response back
+                    http_response_code(200);
+                    echo json_encode(array(
+                        "success" => true,
+                        "message" => "Inserted successfully"
+                    ));
+
+                } else {
+                    http_response_code(500);
+                    echo json_encode(array(
+                        "success" => false,
+                        "message" => "Inserted pin failed: " . $stmtInsertPin->error
+                    ));
+                    exit();
+                }
 
             } else {
                 http_response_code(500);
@@ -221,7 +215,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             http_response_code(404);
             echo json_encode(array("success" => false, "message" => "No file uploaded"));
-            exit();
         }
 
     } catch (Exception $e) {
@@ -230,4 +223,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 // Close the database connection
 $conn->close();
+
 ?>

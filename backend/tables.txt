@@ -63,7 +63,7 @@
 
 (FK, PK) usernameFollowing
 (FK, PK) usernameFollowed
-         date_Followed
+         date_followed
 
 #####################################################
 

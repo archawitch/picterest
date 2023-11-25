@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             http_response_code(200);
             echo json_encode(array(
                 "success" => true,
-                "message" => "Logged in successfully",
+                "message" => "Retrieved successfully",
                 "userData" => array(
                     "username" => $username,
                     "email" => $email,
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     "username" => $user['username'],
                     "fullname" => $user['fullname'],
                     "email" => $user['email'],
-                    "profile_image" => $user['profile_image_path'],
+                    "profileImage" => $user['profile_image_path'],
                 );
             }
 
@@ -102,28 +102,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 
 // Update user
-if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-    $data = json_decode(file_get_contents("php://input"));
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
     $username = $_POST["username"];
     $password = $_POST["password"];
     $email = $_POST["email"];
     $first_name = $_POST["firstName"];
     $last_name = $_POST["lastName"];
     $bio = $_POST["bio"];
-    $profile_image = null;
+    $profile_image_path = null;
 
     // Hash original password
     $hashed_password = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : null;
 
     // Check if a file was uploaded
     if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] == 0) {
-        $uploadDir = '../images/profile_images';
-        $uploadFile = $uploadDir . basename($_FILES['profileImage']['name']);
+        $uploadDirForMove = '../images/profile_images/';
+        $uploadDirForSave = '/backend/images/profile_images/';
+        $uploadImageForMove = $uploadDirForMove . basename($_FILES['profileImage']['name']);
+        $uploadImageForSave = $uploadDirForSave . basename($_FILES['profileImage']['name']);
 
         // Move the uploaded file to the specified directory
-        if (move_uploaded_file($_FILES['profileImage']['tmp_name'], $uploadFile)) {
-            $profile_image = $uploadFile;
+        $move_success = move_uploaded_file($_FILES['profileImage']['tmp_name'], $uploadImageForMove);
+        if ($move_success) {
+            $profile_image_path = $uploadImageForSave;
         } else {
             http_response_code(500);
             echo json_encode(array("success" => false, "message" => "Uploaded failed"));
@@ -140,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     $updateUserDataQuery .= !empty($first_name) ? " first_name = ?," : "";
     $updateUserDataQuery .= !empty($last_name) ? " last_name = ?," : "";
     $updateUserDataQuery .= !empty($bio) ? " bio = ?," : "";
-    $updateUserDataQuery .= !empty($profile_image) ? " profile_image_path = ?," : "";
+    $updateUserDataQuery .= !empty($profile_image_path) ? " profile_image_path = ?," : "";
 
     // Remove the trailing comma if any
     $updateUserDataQuery = rtrim($updateUserDataQuery, ",");
@@ -151,11 +153,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     // Use a prepared statement
     $stmt = $conn->prepare($updateUserDataQuery);
 
-
     // Check if the prepared statement is successful
     if ($stmt) {
         // Bind parameters
-        if (!empty($hashed_password) || !empty($email) || !empty($first_name) || !empty($last_name) || !empty($bio) || !empty($profile_image)) {
+        if (!empty($hashed_password) || !empty($email) || !empty($first_name) || !empty($last_name) || !empty($bio) || !empty($profile_image_path)) {
             $types = "";
             $values = array();
 
@@ -179,9 +180,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
                 $types .= "s";
                 $values[] = $bio;
             }
-            if (!empty($profile_image)) {
+            if (!empty($profile_image_path)) {
                 $types .= "s";
-                $values[] = $profile_image;
+                $values[] = $profile_image_path;
             }
 
             // Add the WHERE parameter
