@@ -2,7 +2,9 @@ import { defineStore } from "pinia";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
-    userData: null,
+    userData: {
+      profileImage: "/src/assets/images/user/default-profile-image.png",
+    },
   }),
   actions: {
     addUser(user) {

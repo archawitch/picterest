@@ -40,7 +40,9 @@ data.tags = computed(() => {
 });
 
 const fullName = computed(() => {
-  return `${userStore.userData.fname} ${userStore.userData.lname}`;
+  return `${userStore.userData.firstName ?? ""} ${
+    userStore.userData.lastName ?? ""
+  }`;
 });
 
 const showImage = (e) => {

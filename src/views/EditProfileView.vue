@@ -1,11 +1,10 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { reactive } from "vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "../stores/user";
 import CustomInput from "../components/CustomInput.vue";
 import CustomTextarea from "../components/CustomTextarea.vue";
 import { onBeforeMount } from "vue";
-import { watch } from "vue";
 
 const users = reactive([
   {
@@ -57,7 +56,6 @@ const userStore = useUserStore();
 const userData = reactive({ profileImage: null });
 
 onBeforeMount(async () => {
-  // Use Vue.set to update reactive properties
   Object.assign(userData, await findUser(route.params.username));
 });
 
@@ -91,6 +89,8 @@ const saveProfile = () => {
   console.log(userData);
   console.log("saved!");
 };
+
+console.log(userStore.userData.profileImage);
 </script>
 
 <template>
@@ -119,14 +119,14 @@ const saveProfile = () => {
       <div class="mt-2 flex w-full">
         <CustomInput
           class="mr-2 w-full"
-          v-model="userData.fname"
+          v-model="userData.firstName"
           label-name="First name"
           input-type="text"
           :required="true"
         ></CustomInput>
         <CustomInput
           class="ml-2 w-full"
-          v-model="userData.lname"
+          v-model="userData.lastName"
           label-name="Last name"
           input-type="text"
           :required="true"

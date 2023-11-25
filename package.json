@@ -15,6 +15,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.5",
     "@yeger/vue-masonry-wall": "^5.0.2",
     "array-shuffle": "^3.0.0",
+    "axios": "^1.6.2",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",
     "volar-service-vetur": "^0.0.17",

@@ -48,7 +48,7 @@
 5. tag
 
 (PK) tagID
-     tag_Name
+     tag_name
 
 #####################################################
 
@@ -63,7 +63,7 @@
 
 (FK, PK) usernameFollowing
 (FK, PK) usernameFollowed
-         date_Followed
+         date_followed
 
 #####################################################
 

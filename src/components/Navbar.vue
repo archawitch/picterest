@@ -15,6 +15,12 @@ const isAdmin = computed(() => {
   return userStore.userData.userType === "admin";
 });
 
+const profileImage = computed(() => {
+  return userStore.userData.profileImage
+    ? userStore.userData.profileImage
+    : "/src/assets/images/user/default-profile-image.png";
+});
+
 const toggleCreateModal = () => {
   if (navbarStore.isSettingModalOpen) {
     navbarStore.toggleSettingModal();
@@ -113,7 +119,7 @@ const searchInput = () => {
       >
         <img
           class="h-full w-full rounded-full object-cover"
-          :src="userStore.userData.profileImage"
+          :src="profileImage"
         />
       </button>
     </router-link>
