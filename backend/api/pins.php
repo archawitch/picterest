@@ -142,10 +142,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try{
         $username = $_POST["username"];
-        $pin_title = $_POST["pinTitle"];
-        $pin_description = $_POST["pinDescription"];
-        $pin_url = $_POST["pinUrl"];
-        $pin_tags = $_POST["pinTags"];
+        $pin_title = $_POST["pinTitle"] ?? null;
+        $pin_description = $_POST["pinDescription"] ?? null;
+        $pin_url = $_POST["pinUrl"] ?? null;
+        $pin_tags = $_POST["pinTags"] ?? null;
         $pin_image_path = null;
 
         // Check if a file was uploaded
