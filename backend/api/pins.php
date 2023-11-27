@@ -7,17 +7,15 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 
-// Read all users
+// Read created pins or one pin by id
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-    $data = json_decode(file_get_contents("php://input"));
-
-    $action = $data->action;
+    $action = $_GET["action"];
 
     // check the actions of the request
     if($action == "selectOne"){
 
-        $pin_id = $data->pinId;
+        $pin_id = $_GET["pinId"];
 
         $selectPinDataQuery = "CALL ReadPin (?)";
                                 
@@ -41,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
 
         // Bind the result variables
-        $stmtPinData->bind_result($fullname, $pin_title, $pin_description, $pin_url, $pin_image_path);
+        $stmtPinData->bind_result($fullname, $username, $profile_image_path, $pin_title, $pin_description, $pin_url, $pin_image_path);
 
         // Found pin
         if ($stmtPinData->fetch()) {
@@ -88,7 +86,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     "pinDescription" => $pin_description,
                     "pinUrl" => $pin_url,
                     "pinImage" => $pin_image_path,
-                    "userName" => $fullname,
+                    "fullname" => $fullname,
+                    "username" => $username,
+                    "profileImage" => $profile_image_path,
                     "tags" => $pin_tags
                 )));
             
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     elseif ($action == "selectMany") {
 
-        $username = $data->username;
+        $username = $_GET["username"];
 
         $selectCreatedPinDataQuery = "SELECT pinID, pin_image_path, pin_Url
                                         FROM pin
@@ -139,13 +139,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try{
         $username = $_POST["username"];
-        $pin_title = $_POST["pinTitle"] ?? null;
-        $pin_description = $_POST["pinDescription"] ?? null;
-        $pin_url = $_POST["pinUrl"] ?? null;
-        $pin_tags = $_POST["pinTags"] ?? null;
+        $pin_title = $_POST["pinTitle"] != "null" ? $_POST["pinTitle"] : NULL;
+        $pin_description = $_POST["pinDescription"] != "null" ? $_POST["pinDescription"] : NULL;
+        $pin_url = $_POST["pinUrl"] != "null" ? $_POST["pinUrl"] : NULL;
+        $pin_tags = $_POST["pinTags"] != "null" ? explode(',', $_POST["pinTags"]) : array();
         $pin_image_path = null;
 
         // Check if a file was uploaded
@@ -196,7 +196,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     http_response_code(200);
                     echo json_encode(array(
                         "success" => true,
-                        "message" => "Inserted successfully"
+                        "message" => "Inserted successfully",
+                        "pinId" => $pin_id
                     ));
 
                 } else {

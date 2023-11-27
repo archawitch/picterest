@@ -1,85 +1,95 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { ref, reactive, computed, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 import { useUserStore } from "../stores/user";
 import Grid from "../components/Grid.vue";
-import pinData from "../assets/json/dummy-images.json";
-import boardData from "../assets/json/dummy-boards.json";
-
-const followingData = reactive([
-  {
-    type: "follower",
-    count: 2,
-  },
-  {
-    type: "following",
-    count: 98,
-  },
-]);
+import axios from "axios";
 
 const userStore = useUserStore();
 
+const boards = ref([]);
+const pinData = ref(null);
+const followingData = reactive({
+  followerCount: 0,
+  followingCount: 0,
+});
 const currentPage = reactive({
   isCreated: true,
   isSaved: false,
 });
 
-const pins = computed(() => {
-  return pinData.items.filter(
-    (item) => item.creatorUsername === userStore.userData.username,
-  );
+onMounted(() => {
+  findCreatedPin();
+  findSavedPin();
+  findFollowData();
 });
 
-const savedPins = reactive([
-  {
-    id: 1,
-    description: "all pins",
-    name: "All pins",
-    pins: [
-      {
-        id: 11,
-        image: "/src/assets/images/dummy-images/Google.jpg",
-        title: "I Love All Cats.",
-        description: "I am a cat lover who love all cats in this world.",
-        creatorUsername: "adam",
-        creatorFullName: "Adam Smith",
+const findCreatedPin = async () => {
+  await axios
+    .get("api/pins.php", {
+      params: {
+        username: userStore.userData.username,
+        action: "selectMany",
       },
-      {
-        id: 12,
-        image:
-          "/src/assets/images/dummy-images/Have a Good Weekend_ _ Cup of Jo.jpg",
-        title: "I Love All Cats.",
-        description: "I am a cat lover who love all cats in this world.",
-        creatorUsername: "john",
-        creatorFullName: "John Doe",
-        url: "http://localhost:5173/src/assets/images/dummy-images/Have%20a%20Good%20Weekend_%20_%20Cup%20of%20Jo.jpg",
-      },
-      {
-        id: 13,
-        image:
-          "/src/assets/images/dummy-images/Photos Of Black Cats Next to White Cats Creating Together a Purr-fect Composition.jpg",
-        title: "I Love All Cats.",
-        description: "I am a cat lover who love all cats in this world.",
-        creatorUsername: "adam",
-        creatorFullName: "Adam Smith",
-      },
-    ],
-  },
-]);
+    })
+    .then((response) => (pinData.value = response.data.pinData))
+    .catch((error) => console.log(error));
+};
 
-const boards = [...savedPins, ...boardData.boards];
+const findSavedPin = async () => {
+  const saveResponse = await axios.get("/api/save.php", {
+    params: {
+      username: userStore.userData.username,
+    },
+  });
 
-const fullName = computed(() => {
-  return `${userStore.userData.firstName ?? ""} ${
-    userStore.userData.lastName ?? ""
-  }`;
-});
+  if (saveResponse.data.success) {
+    const pinData = {
+      boardName: "All pins",
+      ...saveResponse.data,
+    };
+    boards.value = [...boards.value, pinData];
+  }
 
-const followText = computed(() => {
-  return `${followingData[0].count} ${
-    followingData[0].count <= 1 ? "follower" : "followers"
-  } | ${followingData[1].count} following`;
-});
+  const boardResponse = await axios.get("/api/boards.php", {
+    params: {
+      username: userStore.userData.username,
+      action: "selectMany",
+    },
+  });
+
+  if (boardResponse.data.success && boardResponse.data.boardData != null) {
+    boardResponse.data.boardData.forEach((boardData) => {
+      boards.value = [...boards.value, boardData];
+    });
+  }
+};
+
+const findFollowData = async () => {
+  // retrieve follower count
+  const responseFollower = await axios.get("/api/follow.php", {
+    params: {
+      username: userStore.userData.username,
+      action: "readFollowerCount",
+    },
+  });
+
+  if (responseFollower.data.success) {
+    followingData.followerCount = responseFollower.data.followerCount;
+  }
+
+  // retrieve following count
+  const responseFollowing = await axios.get("/api/follow.php", {
+    params: {
+      username: userStore.userData.username,
+      action: "readFollowingCount",
+    },
+  });
+
+  if (responseFollowing.data.success) {
+    followingData.followingCount = responseFollowing.data.followingCount;
+  }
+};
 
 const switchMode = () => {
   if (currentPage.isCreated) {
@@ -90,6 +100,18 @@ const switchMode = () => {
     currentPage.isSaved = false;
   }
 };
+
+const fullName = computed(() => {
+  return `${userStore.userData.firstName ?? ""} ${
+    userStore.userData.lastName ?? ""
+  }`;
+});
+
+const followText = computed(() => {
+  return `${followingData.followerCount} ${
+    followingData.followerCount <= 1 ? "follower" : "followers"
+  } | ${followingData.followingCount} following`;
+});
 </script>
 
 <template>
@@ -101,7 +123,7 @@ const switchMode = () => {
     <div class="mt-4">
       <h1 class="text-2xl font-bold">{{ fullName }}</h1>
     </div>
-    <div class="mt-2 text-sm text-black-3">
+    <div class="mt-1.5 text-sm text-black-3">
       @{{ userStore.userData.username }}
     </div>
     <div class="mt-1.5 text-black-1">{{ userStore.userData.bio }}</div>
@@ -130,10 +152,10 @@ const switchMode = () => {
       Saved
     </button>
   </div>
-  <div v-if="currentPage.isCreated" class="mt-6">
-    <Grid :pin-items="pins"></Grid>
+  <div v-if="currentPage.isCreated && pinData" class="mt-6">
+    <Grid :pin-items="pinData"></Grid>
   </div>
   <div v-if="currentPage.isSaved" class="mt-6">
-    <Grid :board-items="boards"></Grid>
+    <Grid v-if="boards" :board-items="boards"></Grid>
   </div>
 </template>

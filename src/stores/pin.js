@@ -8,9 +8,6 @@ export const usePinStore = defineStore("pin", {
     readPin(pin) {
       this.pinData = pin;
     },
-    discardPin() {
-      this.userData = null;
-    },
   },
   persist: true,
 });

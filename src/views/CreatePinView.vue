@@ -1,32 +1,131 @@
 <script setup>
 import { ref, reactive, computed } from "vue";
 import { useUserStore } from "../stores/user";
+import { useRouter } from "vue-router";
+import axios from "axios";
+import { onMounted } from "vue";
 
+const router = useRouter();
 const userStore = useUserStore();
 
-const boards = reactive([
+const boards = ref([
   {
-    id: 1,
-    name: "Board 1",
-    description: "",
-  },
-  {
-    id: 2,
-    name: "Board 2",
-    description: "",
-  },
-  {
-    id: 3,
-    name: "Board 3",
-    description: "",
+    boardId: 0,
+    boardName: "All pins",
   },
 ]);
 
-const data = reactive({ tags: [""], image: null });
+const formData = reactive({
+  tags: [""],
+  image: null,
+  title: null,
+  description: null,
+  url: null,
+});
+
 const selectedBoard = ref("0");
 const inputTags = ref("");
+const fileInput = ref(null);
 
-data.tags = computed(() => {
+onMounted(() => {
+  findBoards();
+});
+
+const findBoards = async () => {
+  await axios
+    .get("/api/boards.php", {
+      params: {
+        username: userStore.userData.username,
+        action: "selectMany",
+      },
+    })
+    .then((response) => {
+      if (response.data.boardData != null) {
+        boards.value = [...response.data.boardData];
+        console.log(boards.value);
+      }
+    });
+};
+
+const showImage = (e) => {
+  fileInput.value = e.target.files[0];
+
+  if (fileInput.value && fileInput.value.type.startsWith("image/")) {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      formData.image = reader.result;
+    };
+
+    reader.readAsDataURL(fileInput.value);
+  } else {
+    // Handle non-image file types or no file selected
+    fileInput.value = null;
+    formData.image = null;
+  }
+};
+
+const uploadPin = async () => {
+  // Perform upload pin logic
+
+  // Validate input
+  if (fileInput.value === null) {
+    alert("No input image");
+    return;
+  }
+
+  const formDataForInsert = new FormData();
+  formDataForInsert.append("pinImage", fileInput.value);
+  formDataForInsert.append("pinTitle", formData.title);
+  formDataForInsert.append("pinDescription", formData.description);
+  formDataForInsert.append("pinUrl", formData.url);
+  formDataForInsert.append(
+    "pinTags",
+    formData.tags.length !== 0 ? formData.tags : null,
+  );
+  formDataForInsert.append("username", userStore.userData.username);
+  const { data } = await axios.post("/api/pins.php", formDataForInsert);
+
+  if (!data.success) {
+    console.log(data);
+    alert("(╥﹏╥) Failed to save");
+  }
+
+  // save pin
+  const formDataForSave = new FormData();
+  formDataForSave.append("pinId", data.pinId);
+  formDataForSave.append("username", userStore.userData.username);
+  // insert save
+  const saveResponse = await axios.post("/api/save.php", formDataForSave);
+
+  if (!saveResponse.data.success) {
+    console.log(saveResponse.data);
+    alert("(╥﹏╥) Failed to save");
+    return;
+  }
+
+  // insert is_in if any board is selected
+  if (selectedBoard.value !== "0") {
+    const formDataForSaveToBoard = new FormData();
+    formDataForSaveToBoard.append("pinId", data.pinId);
+    formDataForSaveToBoard.append("boardId", selectedBoard.value);
+
+    const saveToBoardResponse = await axios.post(
+      "/api/is_in.php",
+      formDataForSaveToBoard,
+    );
+
+    if (!saveToBoardResponse.data.success) {
+      console.log(saveToBoardResponse.data);
+      alert("(╥﹏╥) Failed to save");
+      return;
+    }
+  }
+
+  router.push({ name: "profile" });
+};
+
+formData.tags = computed(() => {
   let tags = inputTags.value
     .replace(/ /g, "")
     .toLowerCase()
@@ -45,28 +144,6 @@ const fullName = computed(() => {
     userStore.userData.lastName ?? ""
   }`;
 });
-
-const showImage = (e) => {
-  const file = e.target.files[0];
-
-  if (file && file.type.startsWith("image/")) {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      data.image = reader.result;
-    };
-
-    reader.readAsDataURL(file);
-  } else {
-    // Handle non-image file types or no file selected
-    data.image = null;
-  }
-};
-
-const uploadPin = () => {
-  // Perform upload pin logic
-  // ...
-};
 </script>
 
 <template>
@@ -78,7 +155,7 @@ const uploadPin = () => {
         <div class="flex w-[450px] flex-wrap">
           <span
             class="mb-4 mr-2 rounded-full bg-secondary px-4 py-2"
-            v-for="tag in data.tags"
+            v-for="tag in formData.tags"
             >#{{ tag }}</span
           >
         </div>
@@ -88,8 +165,8 @@ const uploadPin = () => {
             class="mr-4 px-2 outline-none hover:cursor-pointer"
           >
             <option value="0" selected>All pins</option>
-            <option v-for="board in boards" :value="board.id">
-              {{ board.name }}
+            <option v-for="board in boards" :value="board.boardId">
+              {{ board.boardName }}
             </option>
           </select>
           <button
@@ -103,7 +180,7 @@ const uploadPin = () => {
       <div class="flex w-[600px] items-center">
         <div class="flex h-full w-[220px] flex-col items-center justify-center">
           <label
-            :class="{ hidden: data.image }"
+            :class="{ hidden: formData.image }"
             class="flex h-[400px] w-full cursor-pointer flex-col items-center justify-center rounded-xl border bg-secondary p-5 text-sm text-black-3"
           >
             <font-awesome-icon
@@ -119,13 +196,13 @@ const uploadPin = () => {
             />
           </label>
           <label
-            :class="{ hidden: !data.image }"
+            :class="{ hidden: !formData.image }"
             class="flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-xl text-sm text-black-2"
           >
             <img
               class="w-[252px] rounded-xl"
-              v-if="data.image"
-              :src="data.image"
+              v-if="formData.image"
+              :src="formData.image"
               alt="preview image"
             />
             <div class="flex items-center pt-4">
@@ -149,14 +226,14 @@ const uploadPin = () => {
               class="mb-1 w-full px-2 text-2xl text-black-1 outline-none"
               type="text"
               placeholder="Add Title"
-              v-model="data.title"
+              v-model="formData.title"
             />
             <hr class="mb-12" />
             <input
               class="mb-1 w-full px-2 text-black-1 outline-none"
               type="text"
               placeholder="Add Description"
-              v-model="data.description"
+              v-model="formData.description"
             />
             <hr class="mb-6" />
             <input
@@ -170,7 +247,7 @@ const uploadPin = () => {
               class="mb-1 w-full px-2 text-black-1 outline-none"
               type="text"
               placeholder="Add URL"
-              v-model="data.url"
+              v-model="formData.url"
             />
             <hr class="mb-8" />
             <div class="flex items-center">

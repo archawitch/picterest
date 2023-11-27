@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = $data->username;
         $password = $data->password;
         $user_type = "user";
-        $profile_image = "/src/assets/images/user/default-profile-image.png";
+        $profile_image = "/backend/images/profile_images/default-profile-image.png";
 
         // Hash the password (replace this with your actual password hashing logic)
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);

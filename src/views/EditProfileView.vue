@@ -1,96 +1,102 @@
 <script setup>
-import { reactive } from "vue";
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "../stores/user";
 import CustomInput from "../components/CustomInput.vue";
 import CustomTextarea from "../components/CustomTextarea.vue";
-import { onBeforeMount } from "vue";
-
-const users = reactive([
-  {
-    username: "adam",
-    password: "adam",
-    fname: "Adam",
-    lname: "Smith",
-    email: "example@mail.com",
-    profileImage: "/src/assets/images/user/default-profile-image.png",
-    bio: "I am a cat lover.",
-    userType: "admin",
-  },
-  {
-    username: "john",
-    password: "doe",
-    fname: "John",
-    lname: "Doe",
-    email: "example123@mail.com",
-    profileImage: "/src/assets/images/user/default-profile-image.png",
-    bio: "I am a cat lover.",
-    userType: "user",
-  },
-  {
-    username: "john_wick",
-    password: "john",
-    fname: "John",
-    lname: "Wick",
-    email: "ex@mail.com",
-    profileImage: "/src/assets/images/user/default-profile-image.png",
-    bio: "I am a cat lover.",
-    userType: "user",
-  },
-  {
-    username: "andrea",
-    password: "andrea",
-    fname: "Andrea",
-    lname: "Onana",
-    email: "exampleonanaygyg@mail.com",
-    profileImage: "/src/assets/images/user/default-profile-image.png",
-    bio: "I am god.",
-    userType: "user",
-  },
-]);
+import axios from "axios";
 
 const route = useRoute();
 
 const userStore = useUserStore();
 
-const userData = reactive({ profileImage: null });
+const userData = ref({ profileImage: null, password: "" });
+const fileInput = ref(null);
+const message = ref("");
 
-onBeforeMount(async () => {
-  Object.assign(userData, await findUser(route.params.username));
+onMounted(() => {
+  findUser(route.params.username);
 });
 
 const findUser = async (username) => {
-  if (username !== undefined) {
-    return { ...users.find((user) => user.username === username) };
+  if (username !== undefined && username !== userStore.userData.username) {
+    await axios
+      .get("/api/users.php", {
+        params: {
+          username: username,
+          action: "selectOne",
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          userData.value = {
+            password: "",
+            ...response.data.userData,
+          };
+        }
+      })
+      .catch((error) => console.log(error));
+  } else {
+    userData.value = { password: "", ...userStore.userData };
   }
-  return { ...userStore.userData };
 };
 
 const changeProfileImage = (e) => {
-  const file = e.target.files[0];
+  fileInput.value = e.target.files[0];
 
-  if (file && file.type.startsWith("image/")) {
+  if (fileInput.value && fileInput.value.type.startsWith("image/")) {
     const reader = new FileReader();
 
     reader.onload = () => {
-      userData.profileImage = reader.result;
+      userData.value.profileImage = reader.result;
     };
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(fileInput.value);
   } else {
     // Handle non-image file types or no file selected
-    userData.profileImage = userStore.userData.profileImage;
+    userData.value.profileImage = userStore.userData.profileImage;
+    fileInput.value = null;
   }
 };
 
-const saveProfile = () => {
+const saveProfile = async () => {
   // perform save profile logic
   // ...
-  console.log(userData);
-  console.log("saved!");
-};
+  const formData = new FormData();
+  formData.append("profileImage", fileInput.value);
+  formData.append("username", userData.value.username);
+  formData.append("password", userData.value.password);
+  formData.append("email", userData.value.email);
+  formData.append("firstName", userData.value.firstName);
+  formData.append("lastName", userData.value.lastName);
+  formData.append("bio", userData.value.bio);
 
-console.log(userStore.userData.profileImage);
+  const { data } = await axios.post("/api/users.php", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  if (data.success) {
+    if (
+      route.params.username === undefined ||
+      route.params.username === userStore.userData.username
+    ) {
+      userStore.userData = await axios
+        .get("/api/users.php", {
+          params: {
+            username: userData.value.username,
+            action: "selectOne",
+          },
+        })
+        .then((response) => response.data.userData);
+    }
+
+    message.value = "( ˶ˆᗜˆ˵ ) Updated successfully";
+  } else {
+    message.value = "(╥﹏╥) Failed to update";
+  }
+};
 </script>
 
 <template>
@@ -156,7 +162,8 @@ console.log(userStore.userData.profileImage);
           :required="true"
         ></CustomInput>
       </div>
-      <div class="mb-20 mt-6 flex justify-end">
+      <div class="mb-20 mt-6 flex items-center">
+        <div class="mr-auto text-red-500">{{ message }}</div>
         <button
           @click.stop="saveProfile"
           class="rounded-full bg-tertiary px-6 py-3 transition hover:bg-secondary"
