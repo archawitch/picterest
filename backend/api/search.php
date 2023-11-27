@@ -11,9 +11,10 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
   $data = json_decode(file_get_contents("php://input"));
 
-  $query = $data->query;
+  $query = $_GET["query"];
+  $username = $_GET["username"];
   
-  $selectPinResultQuery = "CALL SearchPins (?)";
+  $selectPinResultQuery = "CALL SearchPins (?,?)";
 
   $stmtPinResultQuery = $conn->prepare($selectPinResultQuery);
 
@@ -24,7 +25,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
   }
 
   // Bind username
-  $stmtPinResultQuery->bind_param("s", $query);
+  $stmtPinResultQuery->bind_param("ss", $query, $username);
 
   // Execute the statement
   if (!$stmtPinResultQuery->execute()) {

@@ -32,7 +32,7 @@ const props = defineProps({
     >
       <template #default="{ item, index }">
         <Board :board-data="item"></Board>
-        <div class="my-2 flex justify-center">{{ item.name }}</div>
+        <div class="my-2 mb-8 flex justify-center">{{ item.boardName }}</div>
       </template>
     </MasonryWall>
   </div>

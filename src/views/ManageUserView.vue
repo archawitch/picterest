@@ -1,70 +1,70 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "../stores/user";
+import axios from "axios";
 
-const users = reactive([
-  {
-    username: "adam",
-    password: "adam",
-    fname: "Adam",
-    lname: "Smith",
-    email: "example@mail.com",
-    profileImage: "/src/assets/images/dummy-images/Google.jpg",
-    bio: "I am a cat lover.",
-    userType: "admin",
-  },
-  {
-    username: "john",
-    password: "doe",
-    fname: "John",
-    lname: "Doe",
-    email: "example123@mail.com",
-    profileImage: "/src/assets/images/dummy-images/Google.jpg",
-    bio: "I am a cat lover.",
-    userType: "user",
-  },
-  {
-    username: "john_wick",
-    password: "john",
-    fname: "John",
-    lname: "Wick",
-    email: "ex@mail.com",
-    profileImage: "/src/assets/images/dummy-images/Google.jpg",
-    bio: "I am a cat lover.",
-    userType: "user",
-  },
-  {
-    username: "andrea",
-    password: "andrea",
-    fname: "Andrea",
-    lname: "Onana",
-    email: "exampleonanaygyg@mail.com",
-    profileImage: "/src/assets/images/dummy-images/Google.jpg",
-    bio: "I am god.",
-    userType: "user",
-  },
-]);
-
-let usernameForRoute = null;
 const router = useRouter();
+const userStore = useUserStore();
+
+const usernameForRoute = ref(null);
+const users = ref(null);
+const message = ref(null);
+
+onMounted(() => {
+  findUsers();
+});
+
+const findUsers = async () => {
+  await axios
+    .get("/api/users.php", {
+      params: {
+        action: "selectAll",
+      },
+    })
+    .then((response) => {
+      if (response.data.success) {
+        users.value = response.data.userData;
+        console.log(response.data);
+      }
+    })
+    .catch((error) => console.log(error));
+};
 
 const editUser = (username) => {
-  usernameForRoute = username;
+  usernameForRoute.value = username;
   router.push({
     name: "edit-profile-admin",
-    params: { username: usernameForRoute },
+    params: { username: usernameForRoute.value },
   });
 };
 
-const deleteUser = (username) => {
+const deleteUser = async (username) => {
+  // delete admin is forbidden
+  if (username === userStore.userData.username) {
+    alert("Cannot delete this account.");
+    return;
+  }
+
   if (confirm(`Are you sure to delete ${username}?`)) {
-    usernameForRoute = username;
+    usernameForRoute.value = username;
 
     // perform delete user
     // ...
 
-    console.log(usernameForRoute + " deleted.");
-    usernameForRoute = null;
+    const { data } = await axios.delete("/api/users.php", {
+      data: { username: username },
+    });
+
+    if (data.success) {
+      users.value = users.value.filter(
+        (user) => user.username !== usernameForRoute.value,
+      );
+      message.value =
+        "( ˶ˆᗜˆ˵ ) user: [" + usernameForRoute.value + "] deleted.";
+    } else {
+      message.value = "(╥﹏╥) Failed to delete";
+    }
   }
 };
 </script>
@@ -86,7 +86,9 @@ const deleteUser = (username) => {
             :src="user.profileImage"
           />
         </div>
-        <div class="w-[200px] px-8">{{ user.fname }} {{ user.lname }}</div>
+        <div class="w-[250px] px-8">
+          {{ user.fullname }}
+        </div>
         <div class="flex-grow pl-8 pr-20">{{ user.email }}</div>
         <div class="flex items-center">
           <button
@@ -103,6 +105,7 @@ const deleteUser = (username) => {
           </button>
         </div>
       </div>
+      <div class="mt-4 text-red-500">{{ message }}</div>
     </div>
   </div>
 </template>

@@ -1,17 +1,51 @@
 <script setup>
-import { reactive } from "vue";
+import { ref, reactive, watch } from "vue";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomTextarea from "@/components/CustomTextarea.vue";
+import axios from "axios";
+import { useUserStore } from "../stores/user";
 
+const userStore = useUserStore();
+
+const message = ref(null);
 const boardData = reactive({
   name: null,
   description: null,
 });
 
-const createBoard = () => {
+// retrieve created boards
+const createBoard = async () => {
   // Perform create board logic
-  // ...
+
+  // Validate user's input
+  if (boardData.name === null) {
+    message.value = "What is your board name?";
+    return;
+  }
+
+  // Insert board
+  const formData = new FormData();
+  formData.append("boardName", boardData.name);
+  formData.append("boardDescription", boardData.description);
+  formData.append("username", userStore.userData.username);
+
+  const { data } = await axios.post("/api/boards.php", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  if (data.success) {
+    message.value = "Your board has been created.";
+  } else {
+    message.value = data.message;
+  }
 };
+
+// reset response message
+watch([() => boardData.name, () => boardData.description], () => {
+  message.value = "";
+});
 </script>
 
 <template>
@@ -38,10 +72,11 @@ const createBoard = () => {
         rows="2"
         :required="true"
       ></CustomTextarea>
-      <div class="ml-auto mt-4">
+      <div class="mt-4 flex items-center">
+        <div class="text-red-500" v-if="message">{{ message }}</div>
         <button
           @click.stop="createBoard"
-          class="rounded-full bg-tertiary px-6 py-2 text-black-0 transition hover:bg-secondary"
+          class="ml-auto rounded-full bg-tertiary px-6 py-2 text-black-0 transition hover:bg-secondary"
         >
           Create
         </button>

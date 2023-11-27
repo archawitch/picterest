@@ -3,7 +3,7 @@
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 
 include_once './config.php';
 
@@ -12,14 +12,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $data = json_decode(file_get_contents("php://input"));
 
-    $action = $data->action;
+    $action = $_GET["action"];
 
     // check the actions of the request
     if($action == "selectOne"){
 
-        $username = $data->username;
+        $username = $_GET["username"];
 
-        $selectUserDataQuery = "SELECT username, email, first_name, last_name, bio, profile_image_path
+        $selectUserDataQuery = "SELECT username, email, first_name, last_name, bio, profile_image_path, user_type
                                     FROM user
                                 WHERE username = ?";
                                 
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
 
         // Bind the result variables
-        $stmt->bind_result($username, $email, $first_name, $last_name, $bio, $profile_image_path);
+        $stmt->bind_result($username, $email, $first_name, $last_name, $bio, $profile_image_path, $user_type);
 
         // Check if user not found
         if ($stmt->fetch()) {
@@ -58,7 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     "firstName" => $first_name,
                     "lastName" => $last_name,
                     "bio" => $bio,
-                    "profileImage" => $profile_image_path
+                    "profileImage" => $profile_image_path,
+                    "userType" => $user_type
                 )));
             
         } else {
@@ -92,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             echo json_encode(array(
                 "success" => true,
                 "message" => "Retrieved successfully",
-                "user" => $users
+                "userData" => $users
             ));
         } else {
             // Not found any users
@@ -102,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 
 // Update user
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $username = $_POST["username"];
     $password = $_POST["password"];
@@ -214,7 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } 
 
 // Delete user
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     $data = json_decode(file_get_contents("php://input"));
     $username = $data->username;
 

@@ -8,9 +8,6 @@ export const useBoardStore = defineStore("board", {
     readBoard(board) {
       this.boardData = board;
     },
-    discardBoard() {
-      this.boardData = null;
-    },
   },
   persist: true,
 });

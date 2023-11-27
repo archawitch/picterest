@@ -3,23 +3,15 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useNavbarStore } from "../stores/navbar";
 import { useUserStore } from "../stores/user";
+import { useAuthenticationStore } from "../stores/authentication";
 
 const router = useRouter();
 const navbarStore = useNavbarStore();
 const userStore = useUserStore();
+const authenticationStore = useAuthenticationStore();
 
 const searchText = ref("");
 const inputBarDarken = ref(false);
-
-const isAdmin = computed(() => {
-  return userStore.userData.userType === "admin";
-});
-
-const profileImage = computed(() => {
-  return userStore.userData.profileImage
-    ? userStore.userData.profileImage
-    : "/src/assets/images/user/default-profile-image.png";
-});
 
 const toggleCreateModal = () => {
   if (navbarStore.isSettingModalOpen) {
@@ -46,6 +38,22 @@ const searchInput = () => {
     query: { q: searchText.value },
   });
 };
+
+const logout = () => {
+  resetModal();
+  authenticationStore.logout();
+  router.push({ name: "login" });
+};
+
+const isAdmin = computed(() => {
+  return userStore.userData.userType === "admin";
+});
+
+const profileImage = computed(() => {
+  return userStore.userData.profileImage
+    ? userStore.userData.profileImage
+    : "/src/assets/images/user/default-profile-image.png";
+});
 </script>
 
 <template>
@@ -164,9 +172,7 @@ const searchInput = () => {
         >
       </li>
       <li>
-        <router-link :to="{ name: 'login' }"
-          ><button @click="resetModal()">Log out</button></router-link
-        >
+        <button @click="logout()">Log out</button>
       </li>
     </ul>
   </div>
