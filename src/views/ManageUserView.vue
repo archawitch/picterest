@@ -53,7 +53,10 @@ const deleteUser = async (username) => {
     // ...
 
     const { data } = await axios.delete("/api/users.php", {
-      data: { username: username },
+      data: {
+        username: userStore.userData.username,
+        usernameToDelete: username,
+      },
     });
 
     if (data.success) {

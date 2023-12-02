@@ -47,7 +47,9 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
         "message" => "Retrieved successfully",
         "isSaved" => $count ? true : false
     ));
-  } elseif($action == "checkFollow"){
+  } 
+  // check if the creator of the pin is already followed by the user or not
+  elseif($action == "checkFollow"){
 
     $usernameToFollow = $_GET["usernameToFollow"];
     $username = $_GET["username"];
