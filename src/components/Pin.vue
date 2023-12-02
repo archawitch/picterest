@@ -104,7 +104,7 @@ const computedUrl = computed(() => {
       </button>
       <a
         @click.stop=""
-        class="absolute bottom-4 left-4 z-10 text-4xl"
+        class="absolute bottom-3 left-4 z-10 text-4xl"
         :class="{
           'text-transparent': !showPinDetail,
           'text-gray-400': showPinDetail,

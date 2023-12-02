@@ -25,10 +25,15 @@ const sendLoginRequest = async () => {
     }, 1000),
   );
   // fetch user data
-  return await axios.post("/api/auth/login.php", {
-    username: formData.username,
-    password: formData.password,
-  });
+  return await axios
+    .post("/api/auth/login.php", {
+      username: formData.username,
+      password: formData.password,
+    })
+    .catch((error) => {
+      isLoading.value = false;
+      message.error = "* No connection";
+    });
 };
 
 const loginClick = async () => {

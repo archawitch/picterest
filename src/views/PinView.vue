@@ -10,7 +10,7 @@ const userStore = useUserStore();
 
 const boards = ref(null);
 
-const comments = ref(null);
+const comments = ref([]);
 
 const pinData = ref(null);
 const selectedBoard = ref("0");
@@ -322,7 +322,7 @@ const computedUrl = computed(() => {
             {{ isFollowed ? "Followed" : "Follow" }}
           </button>
         </div>
-        <div v-if="comments" class="mt-4">
+        <div v-if="comments.length > 0" class="mt-4">
           <h5 class="text-lg">Comments</h5>
           <div
             v-for="comment in comments"

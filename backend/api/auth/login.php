@@ -6,6 +6,23 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 
+function decryptData($data) {
+    // Store the cipher method
+    $ciphering = "AES-128-CTR";
+    
+    // Use OpenSSl Encryption method
+    $options = 0;
+    
+    // Non-NULL Initialization Vector for encryption
+    $encryption_iv = "1234567891011121";
+    
+    // Store the encryption key
+    $encryption_key = "2tHOLGkppCnAx6XVIcRRGwxKtjVj4PXL";
+    
+    $decrypted = openssl_decrypt($data, $ciphering, $encryption_key, $options, $encryption_iv);
+    return $decrypted;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"));
     $username = $data->username;
@@ -32,6 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Verify password
             if(password_verify($password, $hashed_password)){
+
+                $decryptedEmail = decryptData($email);
+
                 http_response_code(200);
                 echo json_encode(array(
                     "success" => true,
@@ -39,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     "userData" => array(
                         "username" => $username,
                         "userType" => $user_type,
-                        "email" => $email,
+                        "email" => $decryptedEmail,
                         "firstName" => $first_name,
                         "lastName" => $last_name,
                         "bio" => $bio,

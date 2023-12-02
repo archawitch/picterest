@@ -7,6 +7,30 @@ header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 
 include_once './config.php';
 
+function encryptDecrypt($data, $type) {
+    // Store the cipher method
+    $ciphering = "AES-128-CTR";
+    
+    // Use OpenSSl Encryption method
+    $options = 0;
+    
+    // Non-NULL Initialization Vector for encryption
+    $encryption_iv = "1234567891011121";
+    
+    // Store the encryption key
+    $encryption_key = "2tHOLGkppCnAx6XVIcRRGwxKtjVj4PXL";
+    
+    if($type == "encrypt"){
+        // Use openssl_encrypt() function to encrypt the data
+        $encryption = openssl_encrypt($data, $ciphering, $encryption_key, $options, $encryption_iv);
+        return $encryption;
+
+    } else {
+        $decrypted = openssl_decrypt($data, $ciphering, $encryption_key, $options, $encryption_iv);
+        return $decrypted;
+    }
+}
+
 // Read users
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
@@ -32,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             exit();
         }
 
+
         // Bind username
         $stmt->bind_param("s", $username);
 
@@ -40,13 +65,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             http_response_code(500);
             echo json_encode(array("error" => "Error executing statement: " . $stmt->error));
             exit();
-        }
+        }  
 
         // Bind the result variables
         $stmt->bind_result($username, $email, $first_name, $last_name, $bio, $profile_image_path, $user_type);
 
-        // Check if user not found
+        // Check if user found
         if ($stmt->fetch()) {
+            
+            $decryptedEmail = encryptDecrypt($email, "decrypt");
             // Fetch each row and add it to the users array
             http_response_code(200);
             echo json_encode(array(
@@ -54,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 "message" => "Retrieved successfully",
                 "userData" => array(
                     "username" => $username,
-                    "email" => $email,
+                    "email" => $decryptedEmail,
                     "firstName" => $first_name,
                     "lastName" => $last_name,
                     "bio" => $bio,
@@ -70,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     elseif ($action == "selectAll") {
 
-        $selectUserDataQuery = "SELECT username, concat(first_name, ' ', last_name) as fullname, email, profile_image_path 
+        $selectUserDataQuery = "SELECT username, concat(ifnull(first_name, ''), ' ', ifnull(last_name, '')) as fullname, email, profile_image_path 
                                 FROM user";
 
         $selectUserDataResult = $conn->query($selectUserDataQuery);
@@ -84,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $users[] = array(
                     "username" => $user['username'],
                     "fullname" => $user['fullname'],
-                    "email" => $user['email'],
+                    "email" => encryptDecrypt($user['email'], "decrypt"),
                     "profileImage" => $user['profile_image_path'],
                 );
             }
@@ -106,15 +133,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $username = $_POST["username"];
-    $password = $_POST["password"];
-    $email = $_POST["email"];
-    $first_name = $_POST["firstName"];
-    $last_name = $_POST["lastName"];
-    $bio = $_POST["bio"];
+    $password = $_POST["password"] != "null" ? $_POST["password"] : null;
+    $email = $_POST["email"] != "null" ? $_POST["email"] : null;
+    $first_name = $_POST["firstName"] != "null" ? $_POST["firstName"] : null;
+    $last_name = $_POST["lastName"] != "null" ? $_POST["lastName"] : null;
+    $bio = $_POST["bio"] != "null" ? $_POST["bio"] : null;
     $profile_image_path = null;
 
     // Hash original password
     $hashed_password = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : null;
+
+    // encrypt email
+    if($email != null){
+        // encrypt email
+        $encryptedEmail = encryptDecrypt($email, "encrypt");
+    }
 
     // Check if a file was uploaded
     if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] == 0) {
@@ -167,7 +200,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             if (!empty($email)) {
                 $types .= "s";
-                $values[] = $email;
+                $values[] = $encryptedEmail;
             }
             if (!empty($first_name)) {
                 $types .= "s";
@@ -218,33 +251,40 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
 elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     $data = json_decode(file_get_contents("php://input"));
     $username = $data->username;
+    $usernameToDelete = $data->usernameToDelete;
 
-    // Declare the delete query
-    $deleteUserDataQuery = "DELETE FROM user WHERE username = ?";
+    if($username == "brother" && $usernameToDelete != "brother"){
+        // Declare the delete query
+        $deleteUserDataQuery = "DELETE FROM user WHERE username = ?";
 
-    // Use a prepared statement
-    $stmt = $conn->prepare($deleteUserDataQuery);
+        // Use a prepared statement
+        $stmt = $conn->prepare($deleteUserDataQuery);
 
-    // Check if the prepared statement is successful
-    if($stmt){
+        // Check if the prepared statement is successful
+        if($stmt){
 
-        $stmt->bind_param("s", $username);
+            $stmt->bind_param("s", $usernameToDelete);
 
-        // Execute the statement
-        $stmt->execute();
+            // Execute the statement
+            $stmt->execute();
 
-        // Check for success
-        if ($stmt->affected_rows > 0) {
-            http_response_code(200); // OK
-            echo json_encode(array("success" => true, "message" => "Deleted successfully"));
+            // Check for success
+            if ($stmt->affected_rows > 0) {
+                http_response_code(200); // OK
+                echo json_encode(array("success" => true, "message" => "Deleted successfully"));
+            } else {
+                http_response_code(404); // OK
+                echo json_encode(array("success" => false, "message" => "User not found or deletion failed"));
+            }
         } else {
-            http_response_code(404); // OK
-            echo json_encode(array("success" => false, "message" => "User not found or deletion failed"));
+            http_response_code(500); // Internal Server Error
+            echo json_encode(array("success" => false, "message" => "Error in prepared statement: " . $conn->error));
         }
     } else {
         http_response_code(500); // Internal Server Error
-        echo json_encode(array("success" => false, "message" => "Error in prepared statement: " . $conn->error));
+        echo json_encode(array("success" => false, "message" => "The user don't have the privilege to delete other users."));
     }
+
 }
 
 // Close the database connection

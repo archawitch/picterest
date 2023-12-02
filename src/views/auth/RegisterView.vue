@@ -27,11 +27,16 @@ const sendRegisterRequest = async () => {
   );
 
   // send user data || registration
-  return await axios.post("/api/auth/register.php", {
-    username: formData.username,
-    password: formData.password,
-    userType: "user",
-  });
+  return await axios
+    .post("/api/auth/register.php", {
+      username: formData.username,
+      password: formData.password,
+      userType: "user",
+    })
+    .catch((error) => {
+      isLoading.value = false;
+      message.error = "* No connection";
+    });
 };
 
 const signupClick = async () => {
@@ -48,17 +53,15 @@ const signupClick = async () => {
   // start fetching api
   const { data } = await sendRegisterRequest();
 
-  // store user data
-  userStore.addUser(data.userData);
-
-  console.log(userStore.userData.profileImage);
-
   // repeated user
   if (!data.success) {
     isLoading.value = false;
     message.error = "* Duplicate username";
     return;
   }
+
+  // store user data
+  userStore.addUser(data.userData);
 
   // authenticated
   authentication.authenticate();

@@ -39,6 +39,8 @@ const findUser = async (username) => {
   } else {
     userData.value = { password: "", ...userStore.userData };
   }
+
+  console.log(userData.value);
 };
 
 const changeProfileImage = (e) => {
