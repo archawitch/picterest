@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost",
+        target: "http://localhost/picterest/backend/api",
         changeOrigin: true,
         secure: false,
       },
