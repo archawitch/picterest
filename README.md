@@ -20,7 +20,7 @@ Picterest is a web application that allows users to discover, create, and save i
 
    ```
    # Clone the repository to the htdocs folder
-   cd path/to/MAMP
+   cd path/to/MAMP/htdocs
    git clone https://github.com/archawitch/picterest.git
 
    # Install required dependencies
@@ -29,7 +29,7 @@ Picterest is a web application that allows users to discover, create, and save i
    ```
 
 2. Open MAMP and set the Apache port to 80. Alternatively, if you prefer to use another port, you will need to update the configuration in [vite.config.js](vite.config.js) with your desired port.
-3. Open your browser and navigate to [localhost](http://localhost/phpMyAdmin5/) (if you did't set the Apache port to 80, you need to append ":your_port_no" to the end of "localhost".).
+3. Open your browser and navigate to [localhost](http://localhost/phpMyAdmin5/). (if you don't set the Apache port to 80, you will need to append ":your_port_no" to the end of "localhost")
 4. Import a SQL script from [picterest.sql](backend/picterest.sql) to create a database for the app.
 
 ## Usage
