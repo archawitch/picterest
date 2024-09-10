@@ -11,7 +11,7 @@ Picterest is a web application that allows users to discover, create, and save i
 
 ## Prerequisites
 
-- NodeJS
+- Node.js
 - MAMP
 
 ## Installation
@@ -29,7 +29,7 @@ Picterest is a web application that allows users to discover, create, and save i
    ```
 
 2. Open MAMP and set the Apache port to 80. Alternatively, if you prefer to use another port, you will need to update the configuration in [vite.config.js](vite.config.js) with your desired port.
-3. Open your browser and navigate to [localhost](http://localhost/phpMyAdmin5/). (if you don't set the Apache port to 80, you will need to append ":your_port_no" to the end of "localhost")
+3. Open your browser and navigate to [phpMyAdmin](http://localhost/phpMyAdmin5/). (if you don't set the Apache port to 80, you will need to append ":your_port_no" to the end of "localhost")
 4. Import a SQL script from [picterest.sql](backend/picterest.sql) to create a database for the app.
 
 ## Usage
@@ -62,16 +62,16 @@ Picterest is a web application that allows users to discover, create, and save i
 <img src="https://github.com/archawitch/Picterest/assets/106484702/644113e4-5250-496f-acfe-9a657921a38d">
 <img src="https://github.com/archawitch/Picterest/assets/106484702/b2d949ee-6a7b-4f7d-8dc0-5eca5fbd3f11">
 
-#### Profile Page
+#### Profile page
 
 <img src="https://github.com/archawitch/Picterest/assets/106484702/c81073bc-1b14-477c-bdfb-374cef6f4694">
 <img src="https://github.com/archawitch/Picterest/assets/106484702/17578698-8508-430f-a961-ff06d66ef739">
 
-#### Edit profile Page
+#### Edit profile page
 
 <img src="https://github.com/archawitch/Picterest/assets/106484702/8adff753-f242-4d78-ad12-67a1357f396e">
 
-#### Manage user Page (Only admin can access)
+#### Manage user page (for admin)
 
 <img src="https://github.com/archawitch/Picterest/assets/106484702/fcb274cb-6b34-4755-9c35-3ebc8437b981">
 
